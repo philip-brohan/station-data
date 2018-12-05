@@ -45,6 +45,7 @@ raw_data=pandas.read_csv(spreadsheet_file)
 n_values=len(raw_data)
 
 # Make the dataframe columns common to all variables
+ob_time=[700 if raw_data['MONTH'].values[i]>8 else 1400 for i in range(n_values)]
 common=pandas.DataFrame(
        {'Station_ID'    : [args.id] * n_values,
         'Station_Number': [assigned_number] * n_values,
@@ -56,26 +57,96 @@ common=pandas.DataFrame(
         'Year'          : raw_data['YEAR'].values,
         'Month'         : raw_data['MONTH'].values,
         'Day'           : raw_data['DAY'].values,
-        'Time'          : [1400] * n_values})
+        'Time'          : ob_time})
 
-# Make the additional columns specific to MSLP
-mslp=(raw_data.iloc[:, 5]/0.75006156130264).tolist()
-mslp_f=pandas.DataFrame(
-      {'Time_Flag'      : [0] * n_values,   # Instantanious
-       'Variable_Number': [6] * n_values,
-       'Variable_Value' : mslp,
-       'Variable_Flag'  : [None] * n_values})
-
-# Output the mslp
+# Where to put the output files
 opdir="%s/../../../cif/Argentinian_DWR/" % bindir
 if not os.path.isdir(opdir):
     os.makedirs(opdir)
+
+# Make the additional columns specific to MSLP
+value=(raw_data.iloc[:, 5]/0.75006156130264).tolist()
+value_f=pandas.DataFrame(
+      {'Time_Flag'      : [0] * n_values,   # Instantanious
+       'Variable'       : ['MSLP'] * n_values,
+       'Variable_Value' : value,
+       'Variable_Flag'  : [None] * n_values})
+
+# Output the mslp
 file_name="%s/%s_1902_MSLP.cif" % (opdir,args.id)
-op_f=pandas.concat([common,mslp_f],axis=1,sort=False)
+op_f=pandas.concat([common,value_f],axis=1,sort=False)
 op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
             columns=('Station_ID','Station_Number','Source_Number','Lat_N',
                      'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
-                     'Variable_Number','Variable_Flag','Variable_Value',
+                     'Variable','Variable_Flag','Variable_Value',
+                     'Original_Name'))
+
+# Make the additional columns specific to Tair 
+value=(raw_data.iloc[:, 7]).tolist()
+value_f=pandas.DataFrame(
+      {'Time_Flag'      : [0] * n_values,   # Instantanious
+       'Variable'       : ['Tair'] * n_values,
+       'Variable_Value' : value,
+       'Variable_Flag'  : [None] * n_values})
+
+# Output the Tair
+file_name="%s/%s_1902_Tair.cif" % (opdir,args.id)
+op_f=pandas.concat([common,value_f],axis=1,sort=False)
+op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
+            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
+                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
+                     'Variable','Variable_Flag','Variable_Value',
+                     'Original_Name'))
+
+# Make the additional columns specific to Tmax 
+value=(raw_data.iloc[:, 9]).tolist()
+value_f=pandas.DataFrame(
+      {'Time_Flag'      : [None] * n_values,   # Correct flag for 24-Hour Tmax?
+       'Variable'       : ['Tmax'] * n_values,
+       'Variable_Value' : value,
+       'Variable_Flag'  : [None] * n_values})
+
+# Output the Tmax
+file_name="%s/%s_1902_Tmax.cif" % (opdir,args.id)
+op_f=pandas.concat([common,value_f],axis=1,sort=False)
+op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
+            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
+                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
+                     'Variable','Variable_Flag','Variable_Value',
+                     'Original_Name'))
+
+# Make the additional columns specific to Tmin 
+value=(raw_data.iloc[:, 10]).tolist()
+value_f=pandas.DataFrame(
+      {'Time_Flag'      : [None] * n_values,   # Correct flag for 24-Hour Tmax?
+       'Variable'       : ['Tmin'] * n_values,
+       'Variable_Value' : value,
+       'Variable_Flag'  : [None] * n_values})
+
+# Output the Tmin
+file_name="%s/%s_1902_Tmin.cif" % (opdir,args.id)
+op_f=pandas.concat([common,value_f],axis=1,sort=False)
+op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
+            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
+                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
+                     'Variable','Variable_Flag','Variable_Value',
+                     'Original_Name'))
+
+# Make the additional columns specific to Relative Humidity 
+value=(raw_data.iloc[:, 11]).tolist()
+value_f=pandas.DataFrame(
+      {'Time_Flag'      : [None] * n_values,   # Instantanious?
+       'Variable'       : ['RH'] * n_values,
+       'Variable_Value' : value,
+       'Variable_Flag'  : [None] * n_values})
+
+# Output the Tmin
+file_name="%s/%s_1902_Tmin.cif" % (opdir,args.id)
+op_f=pandas.concat([common,value_f],axis=1,sort=False)
+op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
+            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
+                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
+                     'Variable','Variable_Flag','Variable_Value',
                      'Original_Name'))
 
 

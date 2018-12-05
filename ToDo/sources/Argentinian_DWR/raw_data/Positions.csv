@@ -28,7 +28,7 @@ DWR_Chilecito,          -29.166667,     -67.5,          NA
 DWR_Chivilcoy,          -34.8970,       -60.0191,       NA
 DWR_Choele_Choel,       -39.28573,      -65.66189,      NA
 DWR_Chubut-Mdryn,       -42.77151,      -65.04027,      NA
-DWR_Concep.-Mis,        -55.5217,       -27.9806,       NA
+DWR_Concep.-Mis.,       -27.9806,       -55.5217,       NA
 DWR_Concep.-Tuc.,       -27.3459,       -65.5927,       NA
 DWR_Concordia,          -31.391041,     -58.019569,     NA
 DWR_Conesa,             -40.1112,       -64.45421,      NA
@@ -39,7 +39,7 @@ DWR_C._Rivadavia,       -45.864722,     -67.480833,     NA
 DWR_Curuzu-Cuat.,       -29.7868,       -58.08739,      NA
 DWR_Dique_Sn_Rq,        -31.378056,     -64.469444,     NA
 DWR_Dolores,            -36.3152,       -57.6753,       NA
-DWR_Dos Pozos,          -44.5047,       -65.6836,       NA
+DWR_Dos_Pozos,          -44.5047,       -65.6836,       NA
 DWR_Delicias_ER,        -31.9333,       -60.4167,       NA
 DWR_Esperanza,          -26.19614,      -64.239014,     NA
 DWR_Esquina,            -30.018749,     -59.524052,     NA
@@ -105,8 +105,8 @@ DWR_Santa_Cruz,         -50.0247,       -68.5244,       NA
 DWR_Santa_Fa-Cp.,       -31.610659,     -60.697292,     NA
 DWR_Santa_Maria,        -26.683333,     -66.033333,     NA
 DWR_Santo_Tome,         -31.6622,       -60.7616,       NA
-DWR_Sierra_Grande,      -41.60447,      -65.35436,      NA
-DWR_St._Cruz-Mzdo,      -47.028611,     -66.711944,     NA
+DWR_Sierra_Grnde,       -41.60447,      -65.35436,      NA
+DWR_St._Cruz-Mzd,       -47.028611,     -66.711944,     NA
 DWR_Tandil,             -37.3288,       -59.1367,       NA
 DWR_Tinogasta,          -28.066667,     -67.566667,     NA
 DWR_Trancas,            -26.217222,     -65.283056,     NA
