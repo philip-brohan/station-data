@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
-# Make a CIF file for a single station from the raw data
+# Make a SEF file for a single station from the raw data
 
 import os
 import pandas
+import copy
+import SEF
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -21,21 +23,21 @@ except NameError:
 station_names=pandas.read_csv("%s/../raw_data/names.csv" % bindir,
                               skipinitialspace=True,quotechar="'",
                               encoding='utf-8')
-if not args.id in station_names.CIF_ID.values:
+if not args.id in station_names.SEF_ID.values:
     raise ValueError("Unrecognised station ID %s" % args.id)
 
 station_locations=pandas.read_csv("%s/../raw_data/Positions.csv" % bindir,
                               skipinitialspace=True,quotechar="'")
-if not args.id in station_locations.CIF_ID.values:
+if not args.id in station_locations.SEF_ID.values:
     raise ValueError("Station %s has no location" % args.id)
 
 # Load the raw data from Juerg's spreadsheet
 try:
-   original_name=station_names[station_names['CIF_ID']==args.id]['As-digitised'].values[0]
-   assigned_number=int(station_names[station_names['CIF_ID']==args.id]['Number'].values[0])
-   station_lat=station_locations[station_locations['CIF_ID']==args.id]['lat'].values[0]
-   station_lon=station_locations[station_locations['CIF_ID']==args.id]['lon'].values[0]
-   station_height=station_locations[station_locations['CIF_ID']==args.id]['height'].values[0]
+   original_name=station_names[station_names['SEF_ID']==args.id]['As-digitised'].values[0]
+   assigned_number=int(station_names[station_names['SEF_ID']==args.id]['Number'].values[0])
+   station_lat=station_locations[station_locations['SEF_ID']==args.id]['lat'].values[0]
+   station_lon=station_locations[station_locations['SEF_ID']==args.id]['lon'].values[0]
+   station_height=station_locations[station_locations['SEF_ID']==args.id]['height'].values[0]
 except IndexError:
    raise StandardError("Missing original name for %s" % args.id)
 spreadsheet_file=u"%s/../raw_data/South_America_1902.%s.csv" % (bindir,original_name)
@@ -44,110 +46,85 @@ if not os.path.isfile(spreadsheet_file):
 raw_data=pandas.read_csv(spreadsheet_file)
 n_values=len(raw_data)
 
-# Make the dataframe columns common to all variables
+# Make a SEF data structure and populate the common elements
 ob_time=[700 if raw_data['MONTH'].values[i]>8 else 1400 for i in range(n_values)]
-common=pandas.DataFrame(
-       {'Station_ID'    : [args.id] * n_values,
-        'Station_Number': [assigned_number] * n_values,
-        'Original_Name' : [original_name] * n_values,
-        'Source_Number' : [None] * n_values,
-        'Lat_N'         : [station_lat] * n_values,
-        'Lon_E'         : [station_lon] * n_values,
-        'Alt'           : [station_height] * n_values,
-        'Year'          : raw_data['YEAR'].values,
-        'Month'         : raw_data['MONTH'].values,
-        'Day'           : raw_data['DAY'].values,
-        'Time'          : ob_time})
+common=SEF.create(version='0.0.1')
+common['ID']=args.id
+common['Name']=original_name
+common['Lat']=station_lat
+common['Lon']=station_lon
+common['Alt']=station_height
+common['Source']=None
+common['Repo']=None
+common['Data']=pandas.DataFrame(
+       {'Year'  : raw_data['YEAR'].values,
+        'Month' : raw_data['MONTH'].values,
+        'Day'   : raw_data['DAY'].values,
+        'HHMM'  : ob_time})
 
 # Where to put the output files
-opdir="%s/../../../cif/Argentinian_DWR/" % bindir
+opdir="%s/../../../sef/Argentinian_DWR/" % bindir
 if not os.path.isdir(opdir):
     os.makedirs(opdir)
 
-# Make the additional columns specific to MSLP
-value=(raw_data.iloc[:, 5]/0.75006156130264).tolist()
-value_f=pandas.DataFrame(
-      {'Time_Flag'      : [0] * n_values,   # Instantanious
-       'Variable'       : ['MSLP'] * n_values,
-       'Variable_Value' : value,
-       'Variable_Flag'  : [None] * n_values})
+# Tair
+sef_v=copy.deepcopy(common)
+sef_v['Var']='temperature'
+sef_v['Units']='K'
+sef_v['Data']=pandas.concat([sef_v['Data'],
+                            pandas.DataFrame(
+                               {'TimeF' : [0] * n_values,   # Instantanious
+                                'Value' : (raw_data.iloc[:, 7]+273.15).tolist(),
+                                'Meta'  : ''})],
+                            axis=1,sort=False)
+sef_v['Data']['Meta']=raw_data.iloc[:, 7].map(lambda(x): "Original=%dC" % x,
+                                              na_action='ignore')
+SEF.write_file(sef_v,
+               "%s/%s_1902_T.tsv" % (opdir,args.id))
 
-# Output the mslp
-file_name="%s/%s_1902_MSLP.cif" % (opdir,args.id)
-op_f=pandas.concat([common,value_f],axis=1,sort=False)
-op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
-            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
-                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
-                     'Variable','Variable_Flag','Variable_Value',
-                     'Original_Name'))
+# Tmax
+sef_v=copy.deepcopy(common)
+sef_v['Var']='maximum temperature'
+sef_v['Units']='K'
+sef_v['Data']=pandas.concat([sef_v['Data'],
+                            pandas.DataFrame(
+                               {'TimeF' : [13] * n_values,   # Max since last
+                                'Value' : (raw_data.iloc[:, 9]+273.15).tolist(),
+                                'Meta'  : ''})],
+                            axis=1,sort=False)
+sef_v['Data']['Meta']=raw_data.iloc[:, 9].map(lambda(x): "Original=%dC" % x,
+                                              na_action='ignore')
+SEF.write_file(sef_v,
+               "%s/%s_1902_Tmax.tsv" % (opdir,args.id))
 
-# Make the additional columns specific to Tair 
-value=(raw_data.iloc[:, 7]).tolist()
-value_f=pandas.DataFrame(
-      {'Time_Flag'      : [0] * n_values,   # Instantanious
-       'Variable'       : ['Tair'] * n_values,
-       'Variable_Value' : value,
-       'Variable_Flag'  : [None] * n_values})
+# Tmin
+sef_v=copy.deepcopy(common)
+sef_v['Var']='minimum temperature'
+sef_v['Units']='K'
+sef_v['Data']=pandas.concat([sef_v['Data'],
+                            pandas.DataFrame(
+                               {'TimeF' : [13] * n_values,   # Max since last
+                                'Value' : (raw_data.iloc[:, 10]+273.15).tolist(),
+                                'Meta'  : ''})],
+                            axis=1,sort=False)
+sef_v['Data']['Meta']=raw_data.iloc[:, 10].map(lambda(x): "Original=%dC" % x,
+                                              na_action='ignore')
+SEF.write_file(sef_v,
+               "%s/%s_1902_Tmin.tsv" % (opdir,args.id))
 
-# Output the Tair
-file_name="%s/%s_1902_Tair.cif" % (opdir,args.id)
-op_f=pandas.concat([common,value_f],axis=1,sort=False)
-op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
-            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
-                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
-                     'Variable','Variable_Flag','Variable_Value',
-                     'Original_Name'))
-
-# Make the additional columns specific to Tmax 
-value=(raw_data.iloc[:, 9]).tolist()
-value_f=pandas.DataFrame(
-      {'Time_Flag'      : [None] * n_values,   # Correct flag for 24-Hour Tmax?
-       'Variable'       : ['Tmax'] * n_values,
-       'Variable_Value' : value,
-       'Variable_Flag'  : [None] * n_values})
-
-# Output the Tmax
-file_name="%s/%s_1902_Tmax.cif" % (opdir,args.id)
-op_f=pandas.concat([common,value_f],axis=1,sort=False)
-op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
-            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
-                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
-                     'Variable','Variable_Flag','Variable_Value',
-                     'Original_Name'))
-
-# Make the additional columns specific to Tmin 
-value=(raw_data.iloc[:, 10]).tolist()
-value_f=pandas.DataFrame(
-      {'Time_Flag'      : [None] * n_values,   # Correct flag for 24-Hour Tmax?
-       'Variable'       : ['Tmin'] * n_values,
-       'Variable_Value' : value,
-       'Variable_Flag'  : [None] * n_values})
-
-# Output the Tmin
-file_name="%s/%s_1902_Tmin.cif" % (opdir,args.id)
-op_f=pandas.concat([common,value_f],axis=1,sort=False)
-op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
-            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
-                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
-                     'Variable','Variable_Flag','Variable_Value',
-                     'Original_Name'))
-
-# Make the additional columns specific to Relative Humidity 
-value=(raw_data.iloc[:, 11]).tolist()
-value_f=pandas.DataFrame(
-      {'Time_Flag'      : [None] * n_values,   # Instantanious?
-       'Variable'       : ['RH'] * n_values,
-       'Variable_Value' : value,
-       'Variable_Flag'  : [None] * n_values})
-
-# Output the Tmin
-file_name="%s/%s_1902_Tmin.cif" % (opdir,args.id)
-op_f=pandas.concat([common,value_f],axis=1,sort=False)
-op_f.to_csv(file_name,encoding='utf-8',index=False,sep='\t',na_rep='NA',
-            columns=('Station_ID','Station_Number','Source_Number','Lat_N',
-                     'Lon_E','Alt','Year','Month','Day','Time','Time_Flag',
-                     'Variable','Variable_Flag','Variable_Value',
-                     'Original_Name'))
-
+# RH
+sef_v=copy.deepcopy(common)
+sef_v['Var']='relative humidity'
+sef_v['Units']='%'
+sef_v['Data']=pandas.concat([sef_v['Data'],
+                            pandas.DataFrame(
+                               {'TimeF' : [0] * n_values,   # Instantanious
+                                'Value' : (raw_data.iloc[:, 11]).tolist(),
+                                'Meta'  : ''})],
+                            axis=1,sort=False)
+sef_v['Data']['Meta']=raw_data.iloc[:, 11].map(lambda(x): "Original=%d%%" % x,
+                                              na_action='ignore')
+SEF.write_file(sef_v,
+               "%s/%s_1902_RH.tsv" % (opdir,args.id))
 
 
