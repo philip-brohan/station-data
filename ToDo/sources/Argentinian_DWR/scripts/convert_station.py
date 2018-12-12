@@ -63,9 +63,26 @@ common['Data']=pandas.DataFrame(
         'HHMM'  : ob_time})
 
 # Where to put the output files
-opdir="%s/../../../sef/Argentinian_DWR/" % bindir
+opdir="%s/../../../sef/Argentinian_DWR/1902" % bindir
 if not os.path.isdir(opdir):
     os.makedirs(opdir)
+
+# MSLP
+sef_v=copy.deepcopy(common)
+sef_v['Var']='msl pressure'
+sef_v['Units']='hPa'
+sef_v['Meta']='PTC=T,PGC=?'
+sef_v['Data']=pandas.concat([sef_v['Data'],
+                            pandas.DataFrame(
+                               {'TimeF' : [0] * n_values,   # Instantanious
+                                'Value' : (raw_data.iloc[:, 5]/0.75006156130264).tolist(),
+                                'Meta'  : ''})],
+                            axis=1,sort=False)
+sef_v['Data']['Meta']=raw_data.iloc[:, 5].map(lambda(x): "Original=%dmm" % x,
+                                              na_action='ignore')
+SEF.write_file(sef_v,
+               "%s/%s_MSLP.tsv" % (opdir,args.id))
+
 
 # Tair
 sef_v=copy.deepcopy(common)
@@ -80,7 +97,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
 sef_v['Data']['Meta']=raw_data.iloc[:, 7].map(lambda(x): "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
-               "%s/%s_1902_T.tsv" % (opdir,args.id))
+               "%s/%s_T.tsv" % (opdir,args.id))
 
 # Tmax
 sef_v=copy.deepcopy(common)
@@ -95,7 +112,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
 sef_v['Data']['Meta']=raw_data.iloc[:, 9].map(lambda(x): "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
-               "%s/%s_1902_Tmax.tsv" % (opdir,args.id))
+               "%s/%s_Tmax.tsv" % (opdir,args.id))
 
 # Tmin
 sef_v=copy.deepcopy(common)
@@ -110,7 +127,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
 sef_v['Data']['Meta']=raw_data.iloc[:, 10].map(lambda(x): "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
-               "%s/%s_1902_Tmin.tsv" % (opdir,args.id))
+               "%s/%s_Tmin.tsv" % (opdir,args.id))
 
 # RH
 sef_v=copy.deepcopy(common)
@@ -125,6 +142,6 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
 sef_v['Data']['Meta']=raw_data.iloc[:, 11].map(lambda(x): "Original=%d%%" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
-               "%s/%s_1902_RH.tsv" % (opdir,args.id))
+               "%s/%s_RH.tsv" % (opdir,args.id))
 
 
