@@ -7,7 +7,7 @@ Argentine Daily Weather Reports 1902 (Version 0.0.1)
 
 The `Daily Weather Reports <https://www.metoffice.gov.uk/learning/library/archive-hidden-treasures/daily-weather-reports>`_ (DWR), were started by the UK in 1860. The idea spread rapidly to other countries, and Argentina started issuing its own DWRs in 1902.
 
-The Argentine DWRs are being transcribed as part of the Argentine capacity-building program of the `Copernicus C3S Data Rescue Service <http://ensembles-eu.metoffice.com/C3S-DR/index_C3SDR.html>`_, led by `Pablo Canziani <http://conicet.academia.edu/PabloCanziani>`_. The transcription was done by `Jürg Luterbacher <https://www.uni-giessen.de/faculties/f07/geography/sections/climate/staff/luterbacher>`_ and his team at the `University of Giessen <http://www.uni-giessen.de/welcome>`_. So far we only have data for the first year: 1902. The data are reported once a day from each station, but many stations have many days of missing data.
+The Argentine DWRs are being scanned, `put online <http://data.ceda.ac.uk/badc/corral/images/metobs/south_america/Argentina/>`_, and transcribed, as part of the Argentine capacity-building program of the `Copernicus C3S Data Rescue Service <http://ensembles-eu.metoffice.com/C3S-DR/index_C3SDR.html>`_, led by `Pablo Canziani <http://conicet.academia.edu/PabloCanziani>`_. The transcription was done by `Jürg Luterbacher <https://www.uni-giessen.de/faculties/f07/geography/sections/climate/staff/luterbacher>`_ and his team at the `University of Giessen <http://www.uni-giessen.de/welcome>`_. So far we only have transcribed data for the first year: 1902. The data are reported once a day from each station, but many stations have many days of missing data.
 
 The precipitation data in the source documents was not transcribed. The wind speed data is in non-standard units. So this version includes only the mean-sea-level pressure; instantanious, daily maximum, and daily minimum temperatures (dry bulb); and relative humidity. 
 
@@ -32,7 +32,7 @@ The raw data for each station was converted into `SEF files <http://brohan.org/S
 
    Conversion scripts <conversion_scripts>
 
-* Final SEF files [Add link when available]
+* `SEF files <https://github.com/philip-brohan/station-data/tree/master/ToDo/sef/Argentinian_DWR/1902>`_
 
 
 Individual station details
