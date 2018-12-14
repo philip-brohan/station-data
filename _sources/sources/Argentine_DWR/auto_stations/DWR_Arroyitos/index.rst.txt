@@ -1,0 +1,34 @@
+DWR_Arroyitos
+=====================================================================================
+
+..  |map| image:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/station_maps/DWR_Arroyitos.png
+
+
++-------------------------------+------------------------------------------------------+
+|                               |                                                      |
+|                               |                                                      |
+|.. toctree::                   |                                                      |
+|                               |                                                      |
+|   Raw data <raw>              |  |map|                                               |
+|                               |                                                      |
+|SEF files                      |.. toctree::                                          |
+|                               |   :maxdepth: 1                                       |
+|.. toctree::                   |                                                      |
+|   :maxdepth: 1                |   Figure source <../../station_figures/position.rst> |
+|                               |                                                      |
+|   Pressure <MSLP_sf>          |                                                      |
+|   Temperature <T_sf>          |                                                      |
+|   Tmin <Tmin_sf>              |                                                      |
+|   Tmax <Tmax_sf>              |                                                      |
+|   RH <RH_sf>                  |                                                      |
+|                               |                                                      |
+|20CRv3 comparisons             |                                                      |
+|                               |                                                      |
+|.. toctree::                   |                                                      |
+|   :maxdepth: 1                |                                                      |
+|                               |                                                      |
+|   Pressure <P_cp>             |                                                      |
+|   Temperature <T_cp>          |                                                      |
+|                               |                                                      |
++-------------------------------+------------------------------------------------------+
+

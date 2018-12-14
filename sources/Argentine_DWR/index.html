@@ -1,0 +1,251 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Argentine Daily Weather Reports 1902 (Version 0.0.1) &#8212; Weather observations from station archives</title>
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Argentine Daily Weather Reports 1902: Station names" href="names.html" />
+    <link rel="prev" title="Weather observations from station archives" href="../../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="names.html" title="Argentine Daily Weather Reports 1902: Station names"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="../../index.html" title="Weather observations from station archives"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Station data</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/ADWR.png" alt="Logo"/>
+            </a></p>
+<h3><a href="../../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Argentine Daily Weather Reports 1902 (Version 0.0.1)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../credits.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../instructions.html">How to use this dataset</a></li>
+</ul>
+<h3><a href="https://github.com/philip-brohan/station-data">Get the data</a></h3>
+
+<ul>
+<li><a href="https://github.com/philip-brohan/station-data"
+           rel="nofollow">Github repository</a></li>
+<li><a href="https://github.com/philip-brohan/station-data/archive/master.zip"
+           rel="nofollow">Zip file</a></li>
+</ul>
+
+<h3>Found a bug, or have a suggestion?</h3>
+
+Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise an issue</a>.
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="argentine-daily-weather-reports-1902-version-0-0-1">
+<h1>Argentine Daily Weather Reports 1902 (Version 0.0.1)<a class="headerlink" href="#argentine-daily-weather-reports-1902-version-0-0-1" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">These data are not ready for use. The observation times need to be converted to UTC, and some stations are in the wrong place.</p>
+</div>
+<p>The <a class="reference external" href="https://www.metoffice.gov.uk/learning/library/archive-hidden-treasures/daily-weather-reports">Daily Weather Reports</a> (DWR), were started by the UK in 1860. The idea spread rapidly to other countries, and Argentina started issuing its own DWRs in 1902.</p>
+<p>The Argentine DWRs are being scanned, <a class="reference external" href="http://data.ceda.ac.uk/badc/corral/images/metobs/south_america/Argentina/">put online</a>, and transcribed, as part of the Argentine capacity-building program of the <a class="reference external" href="http://ensembles-eu.metoffice.com/C3S-DR/index_C3SDR.html">Copernicus C3S Data Rescue Service</a>, led by <a class="reference external" href="http://conicet.academia.edu/PabloCanziani">Pablo Canziani</a>. The transcription was done by <a class="reference external" href="https://www.uni-giessen.de/faculties/f07/geography/sections/climate/staff/luterbacher">Jürg Luterbacher</a> and his team at the <a class="reference external" href="http://www.uni-giessen.de/welcome">University of Giessen</a>. So far we only have transcribed data for the first year: 1902. The data are reported once a day from each station, but many stations have many days of missing data.</p>
+<p>The precipitation data in the source documents was not transcribed. The wind speed data is in non-standard units. So this version includes only the mean-sea-level pressure; instantanious, daily maximum, and daily minimum temperatures (dry bulb); and relative humidity.</p>
+<div class="section" id="transcribed-observations">
+<h2>Transcribed observations<a class="headerlink" href="#transcribed-observations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>As-received <a class="reference external" href="https://github.com/philip-brohan/station-data/blob/master/ToDo/sources/Argentinian_DWR/raw_data/South_America_1902.xlsx">Excel file</a>.</li>
+<li><a class="reference external" href="https://github.com/philip-brohan/station-data/tree/master/ToDo/sources/Argentinian_DWR/raw_data">individual csv files for each of the 124 stations included</a> split from the .xlsx file using <a class="reference external" href="https://linux.die.net/man/1/ssconvert">ssconvert</a>.</li>
+</ul>
+<p>Station metadata was created for each station:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="names.html">Standard name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Positions.html">Estimated location</a></li>
+</ul>
+</div>
+<p>The raw data for each station was converted into <a class="reference external" href="http://brohan.org/SEF">SEF files</a>:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="conversion_scripts.html">Conversion scripts</a></li>
+</ul>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/philip-brohan/station-data/tree/master/ToDo/sef/Argentinian_DWR/1902">SEF files</a></li>
+</ul>
+</div>
+<div class="section" id="individual-station-details">
+<h2>Individual station details<a class="headerlink" href="#individual-station-details" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_9_de_Julio/index.html">DWR_9_de_Julio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Abra_Pampa/index.html">DWR_Abra_Pampa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Acha_Pampa/index.html">DWR_Acha_Pampa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Andalgala/index.html">DWR_Andalgala</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Arias/index.html">DWR_Arias</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Arroyitos/index.html">DWR_Arroyitos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Arroyitos_Nq/index.html">DWR_Arroyitos_Nq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Asuncion_Pgy/index.html">DWR_Asuncion_Pgy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Azul_BA/index.html">DWR_Azul_BA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_B._Mitre/index.html">DWR_B._Mitre</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_B._Parada/index.html">DWR_B._Parada</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Bahia_Blanca/index.html">DWR_Bahia_Blanca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Balcarce/index.html">DWR_Balcarce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Bernasconi/index.html">DWR_Bernasconi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Bolivar/index.html">DWR_Bolivar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Burruyacu/index.html">DWR_Burruyacu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_C._Rivadavia/index.html">DWR_C._Rivadavia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Cabo_Alarcon/index.html">DWR_Cabo_Alarcon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Cabo_Blanco/index.html">DWR_Cabo_Blanco</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Cabo_Raso/index.html">DWR_Cabo_Raso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Caleta_Oliv./index.html">DWR_Caleta_Oliv.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Camarones/index.html">DWR_Camarones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Canada_Verde/index.html">DWR_Canada_Verde</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Capital_Fed./index.html">DWR_Capital_Fed.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Carcarana/index.html">DWR_Carcarana</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Catamarca-Cp/index.html">DWR_Catamarca-Cp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Ceres/index.html">DWR_Ceres</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Chaco-La_Sb./index.html">DWR_Chaco-La_Sb.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Chilecito/index.html">DWR_Chilecito</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Chilecito_Rj/index.html">DWR_Chilecito_Rj</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Chivilcoy/index.html">DWR_Chivilcoy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Choele_Choel/index.html">DWR_Choele_Choel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Chubut-Mdryn/index.html">DWR_Chubut-Mdryn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Concep.-Mis./index.html">DWR_Concep.-Mis.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Concep.-Tuc./index.html">DWR_Concep.-Tuc.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Concordia/index.html">DWR_Concordia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Conesa/index.html">DWR_Conesa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Cordoba-Cap./index.html">DWR_Cordoba-Cap.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Coronel_Prg./index.html">DWR_Coronel_Prg.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Corrientes-C/index.html">DWR_Corrientes-C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Curuzu-Cuat./index.html">DWR_Curuzu-Cuat.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Delicias_ER/index.html">DWR_Delicias_ER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Dique_Sn_Rq/index.html">DWR_Dique_Sn_Rq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Dolores/index.html">DWR_Dolores</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Dos_Pozos/index.html">DWR_Dos_Pozos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Esperanza/index.html">DWR_Esperanza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Esquina/index.html">DWR_Esquina</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Estc_Pereyra/index.html">DWR_Estc_Pereyra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Formosa_Arg./index.html">DWR_Formosa_Arg.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Gen_Uriburu/index.html">DWR_Gen_Uriburu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Gen_Villegas/index.html">DWR_Gen_Villegas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Goya/index.html">DWR_Goya</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Gualeguay/index.html">DWR_Gualeguay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Guamini/index.html">DWR_Guamini</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Humahuaca/index.html">DWR_Humahuaca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Jujuy-Cap./index.html">DWR_Jujuy-Cap.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Junin/index.html">DWR_Junin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Junin_BA/index.html">DWR_Junin_BA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_La_Carlota/index.html">DWR_La_Carlota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_La_Cautiva/index.html">DWR_La_Cautiva</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_La_Cocha/index.html">DWR_La_Cocha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_La_Plata/index.html">DWR_La_Plata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Las_Flores/index.html">DWR_Las_Flores</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Las_Lajas/index.html">DWR_Las_Lajas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Malaspina/index.html">DWR_Malaspina</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Mar_dl_Plata/index.html">DWR_Mar_dl_Plata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Mendoza-Cap./index.html">DWR_Mendoza-Cap.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_N._Huapi/index.html">DWR_N._Huapi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Necochea/index.html">DWR_Necochea</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Neuquen/index.html">DWR_Neuquen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Olavarria/index.html">DWR_Olavarria</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_P._Deseado/index.html">DWR_P._Deseado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Paso_Libres/index.html">DWR_Paso_Libres</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Patagones/index.html">DWR_Patagones</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Pico_Salama./index.html">DWR_Pico_Salama.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Piedra_Agui./index.html">DWR_Piedra_Agui.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Pilcaneyen/index.html">DWR_Pilcaneyen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Posadas_Mis./index.html">DWR_Posadas_Mis.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Pueblo_Brugo/index.html">DWR_Pueblo_Brugo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Puerto_Mili./index.html">DWR_Puerto_Mili.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Quiaca/index.html">DWR_Quiaca</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Quilino/index.html">DWR_Quilino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Recreo/index.html">DWR_Recreo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Rio_Cuarto/index.html">DWR_Rio_Cuarto</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Rioja-Cap./index.html">DWR_Rioja-Cap.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Roca_Rio_N./index.html">DWR_Roca_Rio_N.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Rosario/index.html">DWR_Rosario</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Rosario_dlF./index.html">DWR_Rosario_dlF.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Saladillo/index.html">DWR_Saladillo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Salta-La_Mcd/index.html">DWR_Salta-La_Mcd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Salta/index.html">DWR_Salta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Antonio/index.html">DWR_San_Antonio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Blas/index.html">DWR_San_Blas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Carlos/index.html">DWR_San_Carlos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Jorge/index.html">DWR_San_Jorge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Juan-Cp./index.html">DWR_San_Juan-Cp.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_L-V._Mcd/index.html">DWR_San_L-V._Mcd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Lorenzo/index.html">DWR_San_Lorenzo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Luis/index.html">DWR_San_Luis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Martin/index.html">DWR_San_Martin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_San_Nicolas/index.html">DWR_San_Nicolas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Santa_Cruz/index.html">DWR_Santa_Cruz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Santa_Fa-Cp./index.html">DWR_Santa_Fa-Cp.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Santa_Maria/index.html">DWR_Santa_Maria</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Santo_Tome/index.html">DWR_Santo_Tome</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Sierra_Grnde/index.html">DWR_Sierra_Grnde</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_St._Cruz-Mzd/index.html">DWR_St._Cruz-Mzd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Tandil/index.html">DWR_Tandil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Tinogasta/index.html">DWR_Tinogasta</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Trancas/index.html">DWR_Trancas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Tratayen/index.html">DWR_Tratayen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Trenque_Lauq/index.html">DWR_Trenque_Lauq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Tres_Arroyos/index.html">DWR_Tres_Arroyos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Tucman-Captl/index.html">DWR_Tucman-Captl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Tumbaya/index.html">DWR_Tumbaya</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Uruguay/index.html">DWR_Uruguay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_V._Casilda/index.html">DWR_V._Casilda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Vera/index.html">DWR_Vera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Villa_Maria/index.html">DWR_Villa_Maria</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Villa_Mrced./index.html">DWR_Villa_Mrced.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Villaguay/index.html">DWR_Villaguay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Ytaybate/index.html">DWR_Ytaybate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_stations/DWR_Zarate/index.html">DWR_Zarate</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="names.html" title="Argentine Daily Weather Reports 1902: Station names"
+             >next</a></li>
+        <li class="right" >
+          <a href="../../index.html" title="Weather observations from station archives"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Station data</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    </div>
+  </body>
+</html>

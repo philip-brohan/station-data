@@ -1,0 +1,220 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DWR_Balcarce (Comparison with 20CRv3 MSLP) &#8212; Weather observations from station archives</title>
+    <link rel="stylesheet" href="../../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="DWR_Balcarce (Comparison with 20CRv3 Temperature)" href="T_cp.html" />
+    <link rel="prev" title="DWR_Balcarce (Tmax SEF file)" href="Tmax_sf.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="T_cp.html" title="DWR_Balcarce (Comparison with 20CRv3 Temperature)"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="Tmax_sf.html" title="DWR_Balcarce (Tmax SEF file)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Station data</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Argentine Daily Weather Reports 1902 (Version 0.0.1)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">DWR_Balcarce</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/ADWR.png" alt="Logo"/>
+            </a></p>
+<h3><a href="../../../../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Argentine Daily Weather Reports 1902 (Version 0.0.1)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../credits.html">Authors and acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../instructions.html">How to use this dataset</a></li>
+</ul>
+<h3><a href="https://github.com/philip-brohan/station-data">Get the data</a></h3>
+
+<ul>
+<li><a href="https://github.com/philip-brohan/station-data"
+           rel="nofollow">Github repository</a></li>
+<li><a href="https://github.com/philip-brohan/station-data/archive/master.zip"
+           rel="nofollow">Zip file</a></li>
+</ul>
+
+<h3>Found a bug, or have a suggestion?</h3>
+
+Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise an issue</a>.
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dwr-balcarce-comparison-with-20crv3-mslp">
+<h1>DWR_Balcarce (Comparison with 20CRv3 MSLP)<a class="headerlink" href="#dwr-balcarce-comparison-with-20crv3-mslp" title="Permalink to this headline">¶</a></h1>
+<div class="figure" id="id1" style="width: 95%">
+<a class="reference internal image-reference" href="../../../../_images/DWR_Balcarce.png"><img alt="../../../../_images/DWR_Balcarce.png" src="../../../../_images/DWR_Balcarce.png" style="width: 95%;" /></a>
+<p class="caption"><span class="caption-text">Blue dots are the 20CRv3 MSLP ensemble at the location of the station (80 ensemble members, with data every three hours). Red dots are the station observations. (Once a day, at 14:00 local up to August, at 7:00 local from September 1st).</span></p>
+</div>
+<div class="section" id="code-to-make-the-figure">
+<h2>Code to make the figure<a class="headerlink" href="#code-to-make-the-figure" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="c1"># Plot a comparison of a set of ship obs against 20CRv3</span>
+
+<span class="c1"># Requires 20CR data to have already been extracted with get_comparators.py</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">SEF</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_agg</span> <span class="k">import</span> \
+                 <span class="n">FigureCanvasAgg</span> <span class="k">as</span> <span class="n">FigureCanvas</span>
+<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="k">import</span> <span class="n">Figure</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--id&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Station to compare&quot;</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="n">obs_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_MSLP.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+
+<span class="n">pickled_20CRdata_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/sef_comparators/Argentinian_DWR/&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SCRATCH&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load the obs</span>
+<span class="n">obs</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_file</span><span class="p">)</span>
+
+<span class="c1"># load the pickled 20CR data</span>
+<span class="n">rdata</span><span class="o">=</span><span class="p">{}</span>
+<span class="n">rmax</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="n">rmin</span><span class="o">=</span><span class="mf">1000000.0</span>
+<span class="n">start_day</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1902</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">end_day</span>  <span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1902</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">current_day</span><span class="o">=</span><span class="n">start_day</span>
+<span class="k">while</span> <span class="n">current_day</span><span class="o">&lt;=</span><span class="n">end_day</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">hour</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">21</span><span class="p">):</span>
+        <span class="n">pfile</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%04d</span><span class="s2">/</span><span class="si">%02d</span><span class="s2">/</span><span class="si">%02d</span><span class="s2">/</span><span class="si">%02d</span><span class="s2">/</span><span class="si">%s</span><span class="s2">_prmsl.pkl&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pickled_20CRdata_dir</span><span class="p">,</span>
+                                                       <span class="n">current_day</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+                                                       <span class="n">current_day</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
+                                                       <span class="n">current_day</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+                                                       <span class="n">hour</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">fh</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">pfile</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+        <span class="n">nrd</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span><span class="o">/</span><span class="mf">100.0</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">rmax</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">rmax</span><span class="p">,</span><span class="nb">max</span><span class="p">(</span><span class="n">nrd</span><span class="p">))</span>
+        <span class="n">rmin</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">rmin</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">nrd</span><span class="p">))</span>
+        <span class="n">rdata</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">%04d%02d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_day</span><span class="o">.</span><span class="n">year</span><span class="p">,</span><span class="n">current_day</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
+                                    <span class="n">current_day</span><span class="o">.</span><span class="n">day</span><span class="p">,</span><span class="n">hour</span><span class="p">)]</span><span class="o">=</span><span class="n">nrd</span>
+    <span class="n">current_day</span><span class="o">=</span><span class="n">current_day</span><span class="o">+</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Set up the plot</span>
+<span class="n">aspect</span><span class="o">=</span><span class="mf">16.0</span><span class="o">/</span><span class="mf">9.0</span>
+<span class="n">fig</span><span class="o">=</span><span class="n">Figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">10.8</span><span class="o">*</span><span class="n">aspect</span><span class="p">,</span><span class="mf">10.8</span><span class="p">),</span>  <span class="c1"># Width, Height (inches)</span>
+           <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+           <span class="n">facecolor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mf">0.88</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+           <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+           <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+           <span class="n">subplotpars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">tight_layout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">=</span><span class="n">FigureCanvas</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;family&#39;</span> <span class="p">:</span> <span class="s1">&#39;sans-serif&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sans-serif&#39;</span> <span class="p">:</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;size&#39;</span>   <span class="p">:</span> <span class="mi">14</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">font</span><span class="p">)</span>
+
+<span class="c1"># Single axes - var v. time</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.945</span><span class="p">,</span><span class="mf">0.94</span><span class="p">])</span>
+<span class="c1"># Axes ranges from data</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1902</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1902</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">23</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">rmin</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;Value&#39;</span><span class="p">]))</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="nb">max</span><span class="p">(</span><span class="n">rmax</span><span class="p">,</span><span class="nb">max</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;Value&#39;</span><span class="p">]))</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;MSLP (hPa)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Ensemble values - one point for each member at each time-point</span>
+<span class="n">t_jitter</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">6</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">rdata</span><span class="p">:</span>
+    <span class="n">dtime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]),</span>
+                            <span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">]))</span>
+    <span class="n">ensemble</span><span class="o">=</span><span class="n">rdata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="c1"># in hPa</span>
+    <span class="n">dates</span><span class="o">=</span><span class="p">[</span><span class="n">dtime</span><span class="o">+</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_jitter</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span><span class="n">ensemble</span><span class="p">,</span>
+                    <span class="mi">5</span><span class="p">,</span>
+                    <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="c1"># Color</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                    <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+                    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                    <span class="n">zorder</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Observations</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">]:</span> <span class="k">continue</span>  <span class="c1"># Missing data</span>
+    <span class="n">dte</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">],</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Day&#39;</span><span class="p">],</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;HHMM&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">),</span>
+                             <span class="n">row</span><span class="p">[</span><span class="s1">&#39;HHMM&#39;</span><span class="p">]</span><span class="o">%</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dte</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">],</span>
+                    <span class="mi">100</span><span class="p">,</span>
+                    <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="c1"># Color</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                    <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                    <span class="n">zorder</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/pressure_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This script requires pre-extracted 20CRv3 data:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../station_figures/20CR_data_extraction.html">Extraction scripts</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="T_cp.html" title="DWR_Balcarce (Comparison with 20CRv3 Temperature)"
+             >next</a></li>
+        <li class="right" >
+          <a href="Tmax_sf.html" title="DWR_Balcarce (Tmax SEF file)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Station data</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Argentine Daily Weather Reports 1902 (Version 0.0.1)</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >DWR_Balcarce</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    </div>
+  </body>
+</html>

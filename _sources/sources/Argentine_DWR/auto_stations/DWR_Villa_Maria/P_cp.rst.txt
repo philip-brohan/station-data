@@ -1,0 +1,21 @@
+DWR_Villa_Maria (Comparison with 20CRv3 MSLP)
+=================================================================
+
+..  figure:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/pressure_comparison/DWR_Villa_Maria.png
+    :width: 95%
+    :figwidth: 95%
+
+    Blue dots are the 20CRv3 MSLP ensemble at the location of the station (80 ensemble members, with data every three hours). Red dots are the station observations. (Once a day, at 14:00 local up to August, at 7:00 local from September 1st).
+
+Code to make the figure
+-----------------------
+
+.. literalinclude:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/plot_pressure_comparison.py
+
+This script requires pre-extracted 20CRv3 data:
+
+.. toctree::
+   :maxdepth: 1
+
+   Extraction scripts <../../station_figures/20CR_data_extraction>
+
