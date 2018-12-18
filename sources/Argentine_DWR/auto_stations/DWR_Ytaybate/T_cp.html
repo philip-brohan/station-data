@@ -15,14 +15,14 @@
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="DWR_Zarate" href="../DWR_Zarate/index.html" />
+    <link rel="next" title="DWR_Cabo_Alarcon" href="../DWR_Cabo_Alarcon/index.html" />
     <link rel="prev" title="DWR_Ytaybate (Comparison with 20CRv3 MSLP)" href="P_cp.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../DWR_Zarate/index.html" title="DWR_Zarate"
+          <a href="../DWR_Cabo_Alarcon/index.html" title="DWR_Cabo_Alarcon"
              accesskey="N">next</a></li>
         <li class="right" >
           <a href="P_cp.html" title="DWR_Ytaybate (Comparison with 20CRv3 MSLP)"
@@ -68,7 +68,7 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
   <div class="section" id="dwr-ytaybate-comparison-with-20crv3-temperature">
 <h1>DWR_Ytaybate (Comparison with 20CRv3 Temperature)<a class="headerlink" href="#dwr-ytaybate-comparison-with-20crv3-temperature" title="Permalink to this headline">¶</a></h1>
 <div class="figure" id="id1" style="width: 95%">
-<a class="reference internal image-reference" href="sources/Argentine_DWR/auto_stations/DWR_Ytaybate/../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/T_comparison/DWR_Ytaybate.png"><img alt="sources/Argentine_DWR/auto_stations/DWR_Ytaybate/../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/T_comparison/DWR_Ytaybate.png" src="sources/Argentine_DWR/auto_stations/DWR_Ytaybate/../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/T_comparison/DWR_Ytaybate.png" style="width: 95%;" /></a>
+<a class="reference internal image-reference" href="sources/Argentine_DWR/auto_stations/DWR_Ytaybate/../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/known_bad/T_comparison/DWR_Ytaybate.png"><img alt="sources/Argentine_DWR/auto_stations/DWR_Ytaybate/../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/known_bad/T_comparison/DWR_Ytaybate.png" src="sources/Argentine_DWR/auto_stations/DWR_Ytaybate/../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/known_bad/T_comparison/DWR_Ytaybate.png" style="width: 95%;" /></a>
 <p class="caption"><span class="caption-text">Blue dots are the 20CRv3 2m air temperature ensemble at the location of the station (80 ensemble members, with data every three hours). Red dots are the station observations. (Once a day, at 14:00 local up to August, at 7:00 local from September 1st). Red lines join the station Tmax and Tmin observations at the same times.</span></p>
 </div>
 <div class="section" id="code-to-make-the-figure">
@@ -99,11 +99,17 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
 <span class="n">pickled_20CRdata_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/sef_comparators/Argentinian_DWR/&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SCRATCH&#39;</span><span class="p">)</span>
 
 <span class="c1"># Load the obs</span>
+<span class="n">known_bad</span><span class="o">=</span><span class="kc">False</span>
 <span class="n">obs_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_T.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
-<span class="n">obs</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_file</span><span class="p">)</span>
 <span class="n">obs_Tmax_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_Tmax.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
-<span class="n">obs_Tmax</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_Tmax_file</span><span class="p">)</span>
 <span class="n">obs_Tmin_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_Tmin.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">obs_file</span><span class="p">):</span>
+    <span class="n">known_bad</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">obs_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/known_bad/1902/</span><span class="si">%s</span><span class="s2">_T.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">obs_Tmax_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/known_bad/1902/</span><span class="si">%s</span><span class="s2">_Tmax.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">obs_Tmin_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/known_bad/1902/</span><span class="si">%s</span><span class="s2">_Tmin.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="n">obs</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_file</span><span class="p">)</span>
+<span class="n">obs_Tmax</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_Tmax_file</span><span class="p">)</span>
 <span class="n">obs_Tmin</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_Tmin_file</span><span class="p">)</span>
 
 <span class="c1"># load the pickled 20CR data</span>
@@ -201,7 +207,10 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
                                <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
                                <span class="n">zorder</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
     
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/T_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="n">figfile</span><span class="o">=</span><span class="s1">&#39;figures/T_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="k">if</span> <span class="n">known_bad</span><span class="p">:</span>
+    <span class="n">figfile</span><span class="o">=</span><span class="s1">&#39;figures/known_bad/T_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figfile</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This script requires pre-extracted 20CRv3 data:</p>
@@ -223,7 +232,7 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../DWR_Zarate/index.html" title="DWR_Zarate"
+          <a href="../DWR_Cabo_Alarcon/index.html" title="DWR_Cabo_Alarcon"
              >next</a></li>
         <li class="right" >
           <a href="P_cp.html" title="DWR_Ytaybate (Comparison with 20CRv3 MSLP)"

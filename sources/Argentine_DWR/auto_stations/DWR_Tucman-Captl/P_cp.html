@@ -96,7 +96,11 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
                     <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
+<span class="n">known_bad</span><span class="o">=</span><span class="kc">False</span>
 <span class="n">obs_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_MSLP.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">obs_file</span><span class="p">):</span>
+    <span class="n">known_bad</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">obs_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/known_bad/1902/</span><span class="si">%s</span><span class="s2">_MSLP.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
 
 <span class="n">pickled_20CRdata_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/sef_comparators/Argentinian_DWR/&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SCRATCH&#39;</span><span class="p">)</span>
 
@@ -182,7 +186,10 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
                     <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                     <span class="n">zorder</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/pressure_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="n">figfile</span><span class="o">=</span><span class="s1">&#39;figures/pressure_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="k">if</span> <span class="n">known_bad</span><span class="p">:</span>
+    <span class="n">figfile</span><span class="o">=</span><span class="s1">&#39;figures/known_bad/pressure_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figfile</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This script requires pre-extracted 20CRv3 data:</p>

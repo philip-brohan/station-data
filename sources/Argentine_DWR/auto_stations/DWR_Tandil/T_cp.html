@@ -15,14 +15,14 @@
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="DWR_Tinogasta" href="../DWR_Tinogasta/index.html" />
+    <link rel="next" title="DWR_Trancas" href="../DWR_Trancas/index.html" />
     <link rel="prev" title="DWR_Tandil (Comparison with 20CRv3 MSLP)" href="P_cp.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../DWR_Tinogasta/index.html" title="DWR_Tinogasta"
+          <a href="../DWR_Trancas/index.html" title="DWR_Trancas"
              accesskey="N">next</a></li>
         <li class="right" >
           <a href="P_cp.html" title="DWR_Tandil (Comparison with 20CRv3 MSLP)"
@@ -99,11 +99,17 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
 <span class="n">pickled_20CRdata_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/sef_comparators/Argentinian_DWR/&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SCRATCH&#39;</span><span class="p">)</span>
 
 <span class="c1"># Load the obs</span>
+<span class="n">known_bad</span><span class="o">=</span><span class="kc">False</span>
 <span class="n">obs_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_T.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
-<span class="n">obs</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_file</span><span class="p">)</span>
 <span class="n">obs_Tmax_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_Tmax.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
-<span class="n">obs_Tmax</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_Tmax_file</span><span class="p">)</span>
 <span class="n">obs_Tmin_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/1902/</span><span class="si">%s</span><span class="s2">_Tmin.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">obs_file</span><span class="p">):</span>
+    <span class="n">known_bad</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">obs_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/known_bad/1902/</span><span class="si">%s</span><span class="s2">_T.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">obs_Tmax_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/known_bad/1902/</span><span class="si">%s</span><span class="s2">_Tmax.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">obs_Tmin_file</span><span class="o">=</span><span class="s2">&quot;../../../../sef/Argentinian_DWR/known_bad/1902/</span><span class="si">%s</span><span class="s2">_Tmin.tsv&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="n">obs</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_file</span><span class="p">)</span>
+<span class="n">obs_Tmax</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_Tmax_file</span><span class="p">)</span>
 <span class="n">obs_Tmin</span><span class="o">=</span><span class="n">SEF</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">obs_Tmin_file</span><span class="p">)</span>
 
 <span class="c1"># load the pickled 20CR data</span>
@@ -201,7 +207,10 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
                                <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span>
                                <span class="n">zorder</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
     
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/T_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="n">figfile</span><span class="o">=</span><span class="s1">&#39;figures/T_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="k">if</span> <span class="n">known_bad</span><span class="p">:</span>
+    <span class="n">figfile</span><span class="o">=</span><span class="s1">&#39;figures/known_bad/T_comparison/</span><span class="si">%s</span><span class="s1">.png&#39;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figfile</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This script requires pre-extracted 20CRv3 data:</p>
@@ -223,7 +232,7 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../DWR_Tinogasta/index.html" title="DWR_Tinogasta"
+          <a href="../DWR_Trancas/index.html" title="DWR_Trancas"
              >next</a></li>
         <li class="right" >
           <a href="P_cp.html" title="DWR_Tandil (Comparison with 20CRv3 MSLP)"

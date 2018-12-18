@@ -1,7 +1,7 @@
 DWR_V._Casilda (Comparison with 20CRv3 Temperature)
 =====================================================================
 
-..  figure:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/T_comparison/DWR_V._Casilda.png
+..  figure:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/known_bad/T_comparison/DWR_V._Casilda.png
     :width: 95%
     :figwidth: 95%
 
