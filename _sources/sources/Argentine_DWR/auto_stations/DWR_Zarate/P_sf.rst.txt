@@ -1,5 +1,0 @@
-DWR_Zarate (MSLP SEF file)
-==========================
-
-.. literalinclude:: ../../../../../ToDo/sef/Argentinian_DWR/1902/DWR_Zarate_MSLP.tsv
-
