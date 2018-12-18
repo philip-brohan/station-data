@@ -3,7 +3,7 @@ Argentine Daily Weather Reports 1902 (Version 0.0.1)
 
 .. warning::
 
-   These data are not ready for use. The observation times need to be converted to UTC, and some stations are in the wrong place.
+   These data should be used with caution. 11 stations have known date problems, and two have no known location. The others look OK, but little QC has been done.
 
 The `Daily Weather Reports <https://www.metoffice.gov.uk/learning/library/archive-hidden-treasures/daily-weather-reports>`_ (DWR), were started by the UK in 1860. The idea spread rapidly to other countries, and Argentina started issuing its own DWRs in 1902.
 
@@ -35,8 +35,8 @@ The raw data for each station was converted into `SEF files <http://brohan.org/S
 * `SEF files <https://github.com/philip-brohan/station-data/tree/master/ToDo/sef/Argentinian_DWR/1902>`_
 
 
-Individual station details
---------------------------
+Individual stations that look OK
+--------------------------------
 
 .. toctree::
    :maxdepth: 1
@@ -58,7 +58,6 @@ Individual station details
    auto_stations/DWR_Bolivar/index
    auto_stations/DWR_Burruyacu/index
    auto_stations/DWR_C._Rivadavia/index
-   auto_stations/DWR_Cabo_Alarcon/index
    auto_stations/DWR_Cabo_Blanco/index
    auto_stations/DWR_Cabo_Raso/index
    auto_stations/DWR_Caleta_Oliv./index
@@ -74,9 +73,7 @@ Individual station details
    auto_stations/DWR_Chivilcoy/index
    auto_stations/DWR_Choele_Choel/index
    auto_stations/DWR_Chubut-Mdryn/index
-   auto_stations/DWR_Concep.-Mis./index
    auto_stations/DWR_Concep.-Tuc./index
-   auto_stations/DWR_Concordia/index
    auto_stations/DWR_Conesa/index
    auto_stations/DWR_Cordoba-Cap./index
    auto_stations/DWR_Coronel_Prg./index
@@ -89,7 +86,6 @@ Individual station details
    auto_stations/DWR_Esperanza/index
    auto_stations/DWR_Esquina/index
    auto_stations/DWR_Estc_Pereyra/index
-   auto_stations/DWR_Formosa_Arg./index
    auto_stations/DWR_Gen_Uriburu/index
    auto_stations/DWR_Gen_Villegas/index
    auto_stations/DWR_Goya/index
@@ -97,7 +93,6 @@ Individual station details
    auto_stations/DWR_Guamini/index
    auto_stations/DWR_Humahuaca/index
    auto_stations/DWR_Jujuy-Cap./index
-   auto_stations/DWR_Junin/index
    auto_stations/DWR_Junin_BA/index
    auto_stations/DWR_La_Carlota/index
    auto_stations/DWR_La_Cautiva/index
@@ -123,8 +118,6 @@ Individual station details
    auto_stations/DWR_Puerto_Mili./index
    auto_stations/DWR_Quiaca/index
    auto_stations/DWR_Quilino/index
-   auto_stations/DWR_Recreo/index
-   auto_stations/DWR_Rio_Cuarto/index
    auto_stations/DWR_Rioja-Cap./index
    auto_stations/DWR_Roca_Rio_N./index
    auto_stations/DWR_Rosario/index
@@ -132,7 +125,6 @@ Individual station details
    auto_stations/DWR_Saladillo/index
    auto_stations/DWR_Salta-La_Mcd/index
    auto_stations/DWR_Salta/index
-   auto_stations/DWR_San_Antonio/index
    auto_stations/DWR_San_Blas/index
    auto_stations/DWR_San_Carlos/index
    auto_stations/DWR_San_Jorge/index
@@ -149,21 +141,43 @@ Individual station details
    auto_stations/DWR_Sierra_Grnde/index
    auto_stations/DWR_St._Cruz-Mzd/index
    auto_stations/DWR_Tandil/index
-   auto_stations/DWR_Tinogasta/index
    auto_stations/DWR_Trancas/index
    auto_stations/DWR_Tratayen/index
    auto_stations/DWR_Trenque_Lauq/index
    auto_stations/DWR_Tres_Arroyos/index
    auto_stations/DWR_Tucman-Captl/index
    auto_stations/DWR_Tumbaya/index
-   auto_stations/DWR_Uruguay/index
-   auto_stations/DWR_V._Casilda/index
    auto_stations/DWR_Vera/index
    auto_stations/DWR_Villa_Maria/index
    auto_stations/DWR_Villa_Mrced./index
    auto_stations/DWR_Villaguay/index
-   auto_stations/DWR_Ytaybate/index
    auto_stations/DWR_Zarate/index
    
   
+Additional stations with no known locations
+-------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   auto_stations/DWR_Rio_Quartro/index
+   auto_stations/DWR_Ytaybate/index
+
+Additional stations with known data problems (bad dates in the as-digitised files)
+----------------------------------------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   auto_stations/DWR_Cabo_Alarcon/index
+   auto_stations/DWR_Concep.-Mis./index
+   auto_stations/DWR_Concordia/index
+   auto_stations/DWR_Formosa_Arg./index
+   auto_stations/DWR_Junin/index
+   auto_stations/DWR_Recreo/index
+   auto_stations/DWR_Rio_Cuarto/index
+   auto_stations/DWR_San_Antonio/index
+   auto_stations/DWR_Tinogasta/index
+   auto_stations/DWR_Uruguay/index
+   auto_stations/DWR_V._Casilda/index
 

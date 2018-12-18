@@ -21,7 +21,11 @@ parser.add_argument("--id", help="Station to compare",
                     type=str,required=True)
 args = parser.parse_args()
 
+known_bad=False
 obs_file="../../../../sef/Argentinian_DWR/1902/%s_MSLP.tsv" % args.id
+if not os.path.isfile(obs_file):
+    known_bad=True
+    obs_file="../../../../sef/Argentinian_DWR/known_bad/1902/%s_MSLP.tsv" % args.id
 
 pickled_20CRdata_dir="%s/sef_comparators/Argentinian_DWR/" % os.getenv('SCRATCH')
 
@@ -107,4 +111,7 @@ for index, row in obs['Data'].iterrows():
                     alpha=1.0,
                     zorder=100)
     
-fig.savefig('figures/pressure_comparison/%s.png' % args.id)
+figfile='figures/pressure_comparison/%s.png' % args.id
+if known_bad:
+    figfile='figures/known_bad/pressure_comparison/%s.png' % args.id
+fig.savefig(figfile)

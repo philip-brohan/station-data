@@ -24,11 +24,17 @@ args = parser.parse_args()
 pickled_20CRdata_dir="%s/sef_comparators/Argentinian_DWR/" % os.getenv('SCRATCH')
 
 # Load the obs
+known_bad=False
 obs_file="../../../../sef/Argentinian_DWR/1902/%s_T.tsv" % args.id
-obs=SEF.read_file(obs_file)
 obs_Tmax_file="../../../../sef/Argentinian_DWR/1902/%s_Tmax.tsv" % args.id
-obs_Tmax=SEF.read_file(obs_Tmax_file)
 obs_Tmin_file="../../../../sef/Argentinian_DWR/1902/%s_Tmin.tsv" % args.id
+if not os.path.isfile(obs_file):
+    known_bad=True
+    obs_file="../../../../sef/Argentinian_DWR/known_bad/1902/%s_T.tsv" % args.id
+    obs_Tmax_file="../../../../sef/Argentinian_DWR/known_bad/1902/%s_Tmax.tsv" % args.id
+    obs_Tmin_file="../../../../sef/Argentinian_DWR/known_bad/1902/%s_Tmin.tsv" % args.id
+obs=SEF.read_file(obs_file)
+obs_Tmax=SEF.read_file(obs_Tmax_file)
 obs_Tmin=SEF.read_file(obs_Tmin_file)
 
 # load the pickled 20CR data
@@ -126,4 +132,7 @@ for index, row in obs['Data'].iterrows():
                                color=(1,0,0,1.0),
                                zorder=100))
     
-fig.savefig('figures/T_comparison/%s.png' % args.id)
+figfile='figures/T_comparison/%s.png' % args.id
+if known_bad:
+    figfile='figures/known_bad/T_comparison/%s.png' % args.id
+fig.savefig(figfile)

@@ -3,7 +3,9 @@
 # Make a SEF file for a single station from the raw data
 
 import os
+import sys
 import pandas
+import datetime
 import copy
 import SEF
 
@@ -26,6 +28,11 @@ station_names=pandas.read_csv("%s/../raw_data/names.csv" % bindir,
 if not args.id in station_names.SEF_ID.values:
     raise ValueError("Unrecognised station ID %s" % args.id)
 
+# Get the known-bad stations
+known_bad=pandas.read_csv("%s/../raw_data/known_bad.csv" % bindir,
+                              skipinitialspace=True,quotechar="'",
+                              encoding='utf-8')
+
 station_locations=pandas.read_csv("%s/../raw_data/Positions.csv" % bindir,
                               skipinitialspace=True,quotechar="'")
 if not args.id in station_locations.SEF_ID.values:
@@ -47,7 +54,8 @@ raw_data=pandas.read_csv(spreadsheet_file)
 n_values=len(raw_data)
 
 # Make a SEF data structure and populate the common elements
-ob_time=[700 if raw_data['MONTH'].values[i]>8 else 1400 for i in range(n_values)]
+# Argentine national time in 1902 was 4h17m ahead of UTC
+ob_time=[243 if raw_data['MONTH'].values[i]>8 else 943 for i in range(n_values)]
 common=SEF.create(version='0.0.1')
 common['ID']=args.id
 common['Name']=original_name
@@ -64,6 +72,8 @@ common['Data']=pandas.DataFrame(
 
 # Where to put the output files
 opdir="%s/../../../sef/Argentinian_DWR/1902" % bindir
+if args.id in known_bad.SEF_ID.values:
+   opdir="%s/../../../sef/Argentinian_DWR/known_bad/1902" % bindir
 if not os.path.isdir(opdir):
     os.makedirs(opdir)
 
@@ -72,13 +82,14 @@ sef_v=copy.deepcopy(common)
 sef_v['Var']='msl pressure'
 sef_v['Units']='hPa'
 sef_v['Meta']='PTC=T,PGC=?'
+raw_value=pandas.to_numeric(raw_data.iloc[:, 5],errors='coerce')
 sef_v['Data']=pandas.concat([sef_v['Data'],
                             pandas.DataFrame(
                                {'TimeF' : [0] * n_values,   # Instantanious
-                                'Value' : (raw_data.iloc[:, 5]/0.75006156130264).tolist(),
+                                'Value' : (raw_value/0.75006156130264).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_data.iloc[:, 5].map(lambda(x): "Original=%dmm" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%dmm" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_MSLP.tsv" % (opdir,args.id))
@@ -88,10 +99,11 @@ SEF.write_file(sef_v,
 sef_v=copy.deepcopy(common)
 sef_v['Var']='temperature'
 sef_v['Units']='K'
+raw_value=pandas.to_numeric(raw_data.iloc[:, 7],errors='coerce')
 sef_v['Data']=pandas.concat([sef_v['Data'],
                             pandas.DataFrame(
                                {'TimeF' : [0] * n_values,   # Instantanious
-                                'Value' : (raw_data.iloc[:, 7]+273.15).tolist(),
+                                'Value' : (raw_value+273.15).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
 sef_v['Data']['Meta']=raw_data.iloc[:, 7].map(lambda(x): "Original=%dC" % x,
@@ -103,13 +115,14 @@ SEF.write_file(sef_v,
 sef_v=copy.deepcopy(common)
 sef_v['Var']='maximum temperature'
 sef_v['Units']='K'
+raw_value=pandas.to_numeric(raw_data.iloc[:, 9],errors='coerce')
 sef_v['Data']=pandas.concat([sef_v['Data'],
                             pandas.DataFrame(
                                {'TimeF' : [13] * n_values,   # Max since last
-                                'Value' : (raw_data.iloc[:, 9]+273.15).tolist(),
+                                'Value' : (raw_value+273.15).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_data.iloc[:, 9].map(lambda(x): "Original=%dC" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_Tmax.tsv" % (opdir,args.id))
@@ -118,13 +131,14 @@ SEF.write_file(sef_v,
 sef_v=copy.deepcopy(common)
 sef_v['Var']='minimum temperature'
 sef_v['Units']='K'
+raw_value=pandas.to_numeric(raw_data.iloc[:, 10],errors='coerce')
 sef_v['Data']=pandas.concat([sef_v['Data'],
                             pandas.DataFrame(
                                {'TimeF' : [13] * n_values,   # Max since last
-                                'Value' : (raw_data.iloc[:, 10]+273.15).tolist(),
+                                'Value' : (raw_value+273.15).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_data.iloc[:, 10].map(lambda(x): "Original=%dC" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_Tmin.tsv" % (opdir,args.id))
@@ -133,13 +147,14 @@ SEF.write_file(sef_v,
 sef_v=copy.deepcopy(common)
 sef_v['Var']='relative humidity'
 sef_v['Units']='%'
+raw_value=pandas.to_numeric(raw_data.iloc[:, 11],errors='coerce')
 sef_v['Data']=pandas.concat([sef_v['Data'],
                             pandas.DataFrame(
                                {'TimeF' : [0] * n_values,   # Instantanious
-                                'Value' : (raw_data.iloc[:, 11]).tolist(),
+                                'Value' : (raw_value).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_data.iloc[:, 11].map(lambda(x): "Original=%d%%" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%d%%" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_RH.tsv" % (opdir,args.id))
