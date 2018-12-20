@@ -54,8 +54,8 @@ raw_data=pandas.read_csv(spreadsheet_file)
 n_values=len(raw_data)
 
 # Make a SEF data structure and populate the common elements
-# Argentine national time in 1902 was 4h17m ahead of UTC
-ob_time=[243 if raw_data['MONTH'].values[i]>8 else 943 for i in range(n_values)]
+# Argentine national time in 1902 was 4h17m behind UTC
+ob_time=[1117 if raw_data['MONTH'].values[i]>8 else 1817 for i in range(n_values)]
 common=SEF.create(version='0.0.1')
 common['ID']=args.id
 common['Name']=original_name
