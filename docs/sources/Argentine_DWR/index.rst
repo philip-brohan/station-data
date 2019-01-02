@@ -1,4 +1,4 @@
-Argentine Daily Weather Reports 1902 (Version 0.0.2)
+Argentine Daily Weather Reports 1902 (Version 0.0.3)
 ====================================================
 
 .. warning::
