@@ -1,5 +1,5 @@
 DWR_Cabo_Alarcon (Tmin SEF file)
 ==========================================================
 
-.. literalinclude:: ../../../../../ToDo/sef/Argentinian_DWR/known_bad/1902/DWR_Cabo_Alarcon_Tmin.tsv
+.. literalinclude:: ../../../../../ToDo/sef/Argentinian_DWR/1902/DWR_Cabo_Alarcon_Tmin.tsv
 

@@ -1,5 +1,5 @@
 DWR_San_Antonio (T SEF file)
 ==========================================================
 
-.. literalinclude:: ../../../../../ToDo/sef/Argentinian_DWR/known_bad/1902/DWR_San_Antonio_T.tsv
+.. literalinclude:: ../../../../../ToDo/sef/Argentinian_DWR/1902/DWR_San_Antonio_T.tsv
 

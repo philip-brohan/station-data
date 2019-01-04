@@ -4,11 +4,6 @@ DWR_Concep.-Mis.
 ..  |map| image:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/station_maps/DWR_Concep.-Mis..png
 
 
-.. warning::
-
-   The data for this station are not ready for use.
-
-
 +-------------------------------+------------------------------------------------------+
 |                               |                                                      |
 |                               |                                                      |

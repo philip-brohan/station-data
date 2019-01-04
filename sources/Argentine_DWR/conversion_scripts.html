@@ -28,7 +28,7 @@
           <a href="Positions.html" title="Argentine Daily Weather Reports 1902: Station locations"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">Station data</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Argentine Daily Weather Reports 1902 (Version 0.0.2)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Argentine Daily Weather Reports 1902 (Version 0.0.4)</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -38,7 +38,7 @@
             </a></p>
 <h3><a href="../../index.html">Table Of Contents</a></h3>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Argentine Daily Weather Reports 1902 (Version 0.0.2)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Argentine Daily Weather Reports 1902 (Version 0.0.4)</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Authors and acknowledgements</a></li>
@@ -100,9 +100,9 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognised station ID </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
 <span class="c1"># Get the known-bad stations</span>
-<span class="n">known_bad</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/../raw_data/known_bad.csv&quot;</span> <span class="o">%</span> <span class="n">bindir</span><span class="p">,</span>
-                              <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">quotechar</span><span class="o">=</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span>
-                              <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="c1">#known_bad=pandas.read_csv(&quot;%s/../raw_data/known_bad.csv&quot; % bindir,</span>
+<span class="c1">#                              skipinitialspace=True,quotechar=&quot;&#39;&quot;,</span>
+<span class="c1">#                              encoding=&#39;utf-8&#39;)</span>
 
 <span class="n">station_locations</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/../raw_data/Positions.csv&quot;</span> <span class="o">%</span> <span class="n">bindir</span><span class="p">,</span>
                               <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">quotechar</span><span class="o">=</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
@@ -143,8 +143,8 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
 
 <span class="c1"># Where to put the output files</span>
 <span class="n">opdir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/../../../sef/Argentinian_DWR/1902&quot;</span> <span class="o">%</span> <span class="n">bindir</span>
-<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">known_bad</span><span class="o">.</span><span class="n">SEF_ID</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-   <span class="n">opdir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/../../../sef/Argentinian_DWR/known_bad/1902&quot;</span> <span class="o">%</span> <span class="n">bindir</span>
+<span class="c1">#if args.id in known_bad.SEF_ID.values:</span>
+<span class="c1">#   opdir=&quot;%s/../../../sef/Argentinian_DWR/known_bad/1902&quot; % bindir</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">opdir</span><span class="p">):</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">opdir</span><span class="p">)</span>
 
@@ -160,7 +160,7 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
                                 <span class="s1">&#39;Value&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="n">raw_value</span><span class="o">/</span><span class="mf">0.75006156130264</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
                                 <span class="s1">&#39;Meta&#39;</span>  <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">})],</span>
                             <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">sef_v</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;Meta&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">raw_value</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="s2">&quot;Original=</span><span class="si">%d</span><span class="s2">mm&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
+<span class="n">sef_v</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;Meta&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">raw_value</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="s2">&quot;Original=</span><span class="si">%5.1f</span><span class="s2">mm&quot;</span> <span class="o">%</span> <span class="n">x</span><span class="p">,</span>
                                               <span class="n">na_action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 <span class="n">SEF</span><span class="o">.</span><span class="n">write_file</span><span class="p">(</span><span class="n">sef_v</span><span class="p">,</span>
                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">_MSLP.tsv&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">opdir</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
@@ -281,7 +281,7 @@ Please <a href="https://github.com/philip-brohan/station-data/issues/new">raise 
           <a href="Positions.html" title="Argentine Daily Weather Reports 1902: Station locations"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">Station data</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Argentine Daily Weather Reports 1902 (Version 0.0.2)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="index.html" >Argentine Daily Weather Reports 1902 (Version 0.0.4)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

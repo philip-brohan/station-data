@@ -1,7 +1,7 @@
 DWR_San_Antonio (Comparison with 20CRv3 MSLP)
 =================================================================
 
-..  figure:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/known_bad/pressure_comparison/DWR_San_Antonio.png
+..  figure:: ../../../../../ToDo/sources/Argentinian_DWR/analyses/20CRv3_comparisons/figures/pressure_comparison/DWR_San_Antonio.png
     :width: 95%
     :figwidth: 95%
 
