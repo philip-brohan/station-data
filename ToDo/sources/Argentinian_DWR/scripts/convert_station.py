@@ -29,9 +29,9 @@ if not args.id in station_names.SEF_ID.values:
     raise ValueError("Unrecognised station ID %s" % args.id)
 
 # Get the known-bad stations
-known_bad=pandas.read_csv("%s/../raw_data/known_bad.csv" % bindir,
-                              skipinitialspace=True,quotechar="'",
-                              encoding='utf-8')
+#known_bad=pandas.read_csv("%s/../raw_data/known_bad.csv" % bindir,
+#                              skipinitialspace=True,quotechar="'",
+#                              encoding='utf-8')
 
 station_locations=pandas.read_csv("%s/../raw_data/Positions.csv" % bindir,
                               skipinitialspace=True,quotechar="'")
@@ -72,8 +72,8 @@ common['Data']=pandas.DataFrame(
 
 # Where to put the output files
 opdir="%s/../../../sef/Argentinian_DWR/1902" % bindir
-if args.id in known_bad.SEF_ID.values:
-   opdir="%s/../../../sef/Argentinian_DWR/known_bad/1902" % bindir
+#if args.id in known_bad.SEF_ID.values:
+#   opdir="%s/../../../sef/Argentinian_DWR/known_bad/1902" % bindir
 if not os.path.isdir(opdir):
     os.makedirs(opdir)
 
