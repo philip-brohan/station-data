@@ -52,7 +52,6 @@ DWR_Gualeguay,          -33.14972,      -59.31069,      NA
 DWR_Guamini,            -37.0126,       -62.4185,       NA
 DWR_Humahuaca,          -23.2040,       -65.3486,       NA
 DWR_Jujuy-Cap.,         -24.183333,     -65.3,          NA
-DWR_Junin,              -34.588551,     -60.949554,     NA
 DWR_La_Carlota,         -33.417936,     -63.293495,     NA
 DWR_La_Cautiva,         -33.97993,      -64.08282,      NA
 DWR_La_Cocha,           -27.77,         -65.585833,     NA
@@ -85,13 +84,12 @@ DWR_Rio_Cuarto,         -33.142971,     -64.329277,     NA
 DWR_Rioja-Cap.,         -29.4125,       -66.854167,     NA
 DWR_Chilecito_Rj,       -29.1611,       -67.4962,       NA
 DWR_Roca_Rio_N.,        -41.030556,     -62.789722,     NA
-DWR_Rio_Quartro,        NA,             NA,       NA
 DWR_Rosario,            -32.95924,      -60.683479,     NA
 DWR_Rosario_dlF.,       -25.8,          -64.966667,     NA
 DWR_Saladillo,          -35.6389,       -59.7795,       NA
 DWR_Salta,              -24.783333,     -65.416667,     NA
 DWR_Salta-La_Mcd,       -24.9667,       -65.4895,       NA
-DWR_San_Antonio,        -36.293095,     -56.777,        NA
+DWR_San_Antonio,        -40.73,         -64.95,        NA
 DWR_San_Blas,           -40.5608,       -62.2367,       NA
 DWR_San_Carlos,         -25.9,          -65.933333,     NA
 DWR_San_Jorge,          -32.3,          -66.6,          NA
@@ -121,6 +119,6 @@ DWR_Vera,               -29.47028,      -60.20232,      NA
 DWR_Villaguay,          -31.86728,      -59.02684,      NA
 DWR_Villa_Maria,        -34.88247,      -60.34444,      NA
 DWR_Villa_Mrced.,       -33.666667,     -65.466667,     NA
-DWR_Ytaybate,           NA,             NA,             NA
+DWR_Ytaybate,           -27.43,         -57.34,         NA
 DWR_Zarate,             -34.0958,       -59.0242,       NA
 

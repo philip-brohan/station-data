@@ -13,5 +13,5 @@ f=open("run.txt","w+")
 for id in station_names.SEF_ID.values:
     f.write("./plot_pressure_comparison.py --id=%s\n" % id)
     f.write("./plot_T_comparison.py --id=%s\n" % id)
-    #f.write("./highlighted_station_map.py --id=%s\n" % id)
+    f.write("./highlighted_station_map.py --id=%s\n" % id)
 f.close()

@@ -89,7 +89,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
                                 'Value' : (raw_value/0.75006156130264).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%dmm" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%5.1fmm" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_MSLP.tsv" % (opdir,args.id))

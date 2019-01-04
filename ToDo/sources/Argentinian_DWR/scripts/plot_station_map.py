@@ -84,7 +84,7 @@ for index, row in left.iterrows():
                                             edgecolor='black',
                                             alpha=1))
     ax_full.text(0.18,0.99-0.98*(i+0.5)/len(left),
-                 row['CIF_ID'][4:],
+                 row['SEF_ID'][4:],
                  horizontalalignment='right',
                  verticalalignment='center',
                  size=10,
@@ -117,7 +117,7 @@ for index, row in right.iterrows():
                                             edgecolor='black',
                                             alpha=1))
     ax_full.text(0.82,0.99-0.98*(i+0.5)/len(right),
-                 row['CIF_ID'][4:],
+                 row['SEF_ID'][4:],
                  horizontalalignment='left',
                  verticalalignment='center',
                  size=10,
