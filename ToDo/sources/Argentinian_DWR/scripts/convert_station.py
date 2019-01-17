@@ -46,10 +46,10 @@ try:
    station_lon=station_locations[station_locations['SEF_ID']==args.id]['lon'].values[0]
    station_height=station_locations[station_locations['SEF_ID']==args.id]['height'].values[0]
 except IndexError:
-   raise StandardError("Missing original name for %s" % args.id)
-spreadsheet_file=u"%s/../raw_data/South_America_1902.%s.csv" % (bindir,original_name)
+   raise Exception("Missing original name for %s" % args.id)
+spreadsheet_file="%s/../raw_data/South_America_1902.%s.csv" % (bindir,original_name)
 if not os.path.isfile(spreadsheet_file):
-   raise StandardError("Missing file %s" % spreadsheet_file)
+   raise Exception("Missing file %s" % spreadsheet_file)
 raw_data=pandas.read_csv(spreadsheet_file)
 n_values=len(raw_data)
 
@@ -89,7 +89,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
                                 'Value' : (raw_value/0.75006156130264).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%5.1fmm" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda x: "Original=%5.1fmm" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_MSLP.tsv" % (opdir,args.id))
@@ -106,7 +106,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
                                 'Value' : (raw_value+273.15).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_data.iloc[:, 7].map(lambda(x): "Original=%dC" % x,
+sef_v['Data']['Meta']=raw_data.iloc[:, 7].map(lambda x: "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_T.tsv" % (opdir,args.id))
@@ -122,7 +122,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
                                 'Value' : (raw_value+273.15).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%dC" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda x: "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_Tmax.tsv" % (opdir,args.id))
@@ -138,7 +138,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
                                 'Value' : (raw_value+273.15).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%dC" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda x: "Original=%dC" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_Tmin.tsv" % (opdir,args.id))
@@ -154,7 +154,7 @@ sef_v['Data']=pandas.concat([sef_v['Data'],
                                 'Value' : (raw_value).tolist(),
                                 'Meta'  : ''})],
                             axis=1,sort=False)
-sef_v['Data']['Meta']=raw_value.map(lambda(x): "Original=%d%%" % x,
+sef_v['Data']['Meta']=raw_value.map(lambda x: "Original=%d%%" % x,
                                               na_action='ignore')
 SEF.write_file(sef_v,
                "%s/%s_RH.tsv" % (opdir,args.id))

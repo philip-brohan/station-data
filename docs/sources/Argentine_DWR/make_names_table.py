@@ -9,15 +9,15 @@ station_names=pandas.read_csv("../../../../ToDo/sources/Argentinian_DWR/raw_data
                               skipinitialspace=True,quotechar="'",
                               encoding='utf-8')
 
-print ".. list-table:: "
-print "   :widths: 50 50 50"
-print "   :header-rows: 0"
+print(".. list-table:: ")
+print("   :widths: 50 50 50")
+print("   :header-rows: 0")
 
 i=0
 for id in station_names.SEF_ID.values:
     if i%3==0:
-        print "   * - %s" % id
+        print("   * - %s" % id)
     else:
-        print "     - %s" % id
+        print("     - %s" % id)
     i=i+1
 
