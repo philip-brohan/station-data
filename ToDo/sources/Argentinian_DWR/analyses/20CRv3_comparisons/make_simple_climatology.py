@@ -27,7 +27,7 @@ parser.add_argument("--version", help="Versoion: 4.5.1, 4.6.1",
 
 args = parser.parse_args()
 
-start=datetime.datetime(1902,6,1,0)+datetime.timedelta(hours=args.hour)
+start=datetime.datetime(1902,6,2,0)+datetime.timedelta(hours=args.hour)
 end=datetime.datetime(1902,6,30,23,59)
 opdir="%s/simple_climatologies/20CRv3/June_1902" % os.getenv('SCRATCH')
 if not os.path.isdir(opdir):
@@ -39,6 +39,7 @@ current=start
 count=0
 while current<end:
     rdata=twcr.load(args.var,current,version=args.version)
+    rdata=rdata.collapsed('member', iris.analysis.MEAN)
     if accum is None:
         accum=rdata
     else:
