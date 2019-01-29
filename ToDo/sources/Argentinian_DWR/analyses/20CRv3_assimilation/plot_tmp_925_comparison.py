@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Effect plot for the Argentine DWRs in 1902
+# T_925 effect plot for the Argentine DWRs in 1902
 
 import os
 import math
@@ -41,28 +41,28 @@ skip_stations=['DWR_Roca_Rio_N.','DWR_Sierra_Grnde',
 # Date to show
 year=1902
 month=8
-day=27
+day=7
 hour=18
 minute=0 # obs are at 18:17 UTC, but show the field at 18:00
 dte=datetime.datetime(year,month,day,hour,minute)
 
 # Load all the Argentine DWR pressures at this time
-adf=glob.glob('../../../../sef/Argentinian_DWR/1902/DWR_*_MSLP.tsv')
-obs={'Name': [], 'Latitude': [], 'Longitude': [], 'mslp' : []}
+adf=glob.glob('../../../../sef/Argentinian_DWR/1902/DWR_*_T.tsv')
+obs={'Name': [], 'Latitude': [], 'Longitude': [], 'at' : []}
 for file in adf:
    stobs=SEF.read_file(file)
    df=stobs['Data']
    hhmm=int("%2d%02d" % (dte.hour,17))
-   mslp=df.loc[(df['Year'] == dte.year) & 
+   at=df.loc[(df['Year'] == dte.year) & 
                (df['Month'] == dte.month) &
                (df['Day'] == dte.day) &
                (df['HHMM'] == hhmm) ]
-   if mslp.empty: continue
-   if mslp['Value'].values[0]==mslp['Value'].values[0]:
+   if at.empty: continue
+   if at['Value'].values[0]==at['Value'].values[0]:
        obs['Name'].append(stobs['ID'])
        obs['Latitude'].append(stobs['Lat'])
        obs['Longitude'].append(stobs['Lon'])
-       obs['mslp'].append(mslp['Value'].values[0])
+       obs['at'].append(at['Value'].values[0])
 obs=pandas.DataFrame(obs)
 
 # Landscape page
@@ -96,27 +96,32 @@ mg.background.add_grid(ax_left)
 land_img_left=ax_left.background_img(name='GreyT', resolution='low')
 
 # 20CRv3 data
-prmsl=twcr.load('prmsl',dte,version='4.5.1')
+at=twcr.load('tmp',dte,level=925,version='4.5.1')
+aat=at.copy()
+at.data=at.data-273.15
+clim=pickle.load( open( "%s/simple_climatologies/20CRv3/August_1902/tmp_925_4.5.1.pkl" % os.getenv('SCRATCH'), "rb" ) )
+for m in range(80):
+    aat.data[m,:,:]=aat.data[m,:,:]-clim.data
 obs_t=twcr.load_observations_fortime(dte,version='4.5.1')
 
 # Plot the observations
 mg.observations.plot(ax_left,obs_t,radius=0.2)
 
 # PRMSL spaghetti plot
-mg.pressure.plot(ax_left,prmsl,scale=0.01,type='spaghetti',
+mg.pressure.plot(ax_left,at,scale=1,type='spaghetti',
                    resolution=0.25,
-                   levels=numpy.arange(875,1050,10),
+                   levels=numpy.arange(-10,40,10),
                    colors='blue',
                    label=False,
                    linewidths=0.1)
 
 # Add the ensemble mean - with labels
-prmsl_m=prmsl.collapsed('member', iris.analysis.MEAN)
-prmsl_s=prmsl.collapsed('member', iris.analysis.STD_DEV)
-#prmsl_m.data[numpy.where(prmsl_s.data>300)]=numpy.nan
-mg.pressure.plot(ax_left,prmsl_m,scale=0.01,
+at_m=at.collapsed('member', iris.analysis.MEAN)
+at_s=at.collapsed('member', iris.analysis.STD_DEV)
+#at_m.data[numpy.where(at_s.data>1)]=numpy.nan
+mg.pressure.plot(ax_left,at_m,scale=1,
                    resolution=0.25,
-                   levels=numpy.arange(875,1050,10),
+                   levels=numpy.arange(-10,40,10),
                    colors='black',
                    label=True,
                    linewidths=2)
@@ -143,27 +148,32 @@ ax_centre.background_patch.set_facecolor((0.88,0.88,0.88,1))
 mg.background.add_grid(ax_centre)
 land_img_centre=ax_centre.background_img(name='GreyT', resolution='low')
 
-# Load the 4.6.1 mslp
-prmsl2=twcr.load('prmsl',dte,version='4.6.1')
+# Load the 4.6.1 data
+at2=twcr.load('tmp',dte,level=925,version='4.6.1')
+aat2=at2.copy()
+at2.data=at2.data-273.15
+clim=pickle.load( open( "%s/simple_climatologies/20CRv3/August_1902/tmp_925_4.6.1.pkl" % os.getenv('SCRATCH'), "rb" ) )
+for m in range(80):
+    aat2.data[m,:,:]=aat2.data[m,:,:]-clim.data
 obs_t2=twcr.load_observations_fortime(dte,version='4.6.1')
 
 mg.observations.plot(ax_centre,obs_t2,radius=0.2)
 
 # PRMSL spaghetti plot
-mg.pressure.plot(ax_centre,prmsl2,scale=0.01,type='spaghetti',
+mg.pressure.plot(ax_centre,at2,scale=1,type='spaghetti',
                    resolution=0.25,
-                   levels=numpy.arange(875,1050,10),
+                   levels=numpy.arange(-10,40,10),
                    colors='blue',
                    label=False,
                    linewidths=0.1)
 
 # Add the ensemble mean - with labels
-prmsl_m=prmsl2.collapsed('member', iris.analysis.MEAN)
-prmsl_s=prmsl2.collapsed('member', iris.analysis.STD_DEV)
-#prmsl_m.data[numpy.where(prmsl_s.data>300)]=numpy.nan
-mg.pressure.plot(ax_centre,prmsl_m,scale=0.01,
+at_m=at2.collapsed('member', iris.analysis.MEAN)
+at_s=at.collapsed('member', iris.analysis.STD_DEV)
+#at_m.data[numpy.where(at_s.data>1)]=numpy.nan
+mg.pressure.plot(ax_centre,at_m,scale=1,
                    resolution=0.25,
-                   levels=numpy.arange(875,1050,10),
+                   levels=numpy.arange(-10,40,10),
                    colors='black',
                    label=True,
                    linewidths=2)
@@ -183,7 +193,7 @@ stations=list(OrderedDict.fromkeys(obs.Name.values))
 interpolate_obs=obs
 ax_right=fig.add_axes([0.74,0.05,0.255,0.94])
 # x-axis
-xrange=[960,1045]
+xrange=[-25,15]
 ax_right.set_xlim(xrange)
 ax_right.set_xlabel('')
 
@@ -212,33 +222,33 @@ latlon={}
 for y in range(0,len(stations)):
     station=stations[y]
     try:
-        mslp=obs[obs.Name==station].mslp.values[0]
+        at=obs[obs.Name==station]['at'].values[0]-273.15-10
     except Exception: continue 
-    if mslp is None: continue  
+    if at is None: continue  
     if station in skip_stations:                         
         ax_right.add_line(matplotlib.lines.Line2D(
-                xdata=(mslp,mslp), ydata=(y+1.1,y+1.9),
+                xdata=(at,at), ydata=(y+1.1,y+1.9),
                 linestyle='solid',
                 linewidth=3,
                 color=(0,0,0,0.5),
                 zorder=1))
     else:
         ax_right.add_line(matplotlib.lines.Line2D(
-                xdata=(mslp,mslp), ydata=(y+1.1,y+1.9),
+                xdata=(at,at), ydata=(y+1.1,y+1.9),
                 linestyle='solid',
                 linewidth=3,
                 color=(0,0,0,1),
                 zorder=1))
 
 # for each station, plot the V3 ensemble at that station
-interpolator = iris.analysis.Linear().interpolator(prmsl, 
+interpolator = iris.analysis.Linear().interpolator(aat, 
                                    ['latitude', 'longitude'])
 for y in range(len(stations)):
     station=stations[y]
     ensemble=interpolator([obs[obs.Name==station].Latitude.values[0],
                            obs[obs.Name==station].Longitude.values[0]])
 
-    ax_right.scatter(ensemble.data/100.0,
+    ax_right.scatter(ensemble.data,
                 numpy.linspace(y+1.5,y+1.9,
                               num=len(ensemble.data)),
                 20,
@@ -252,11 +262,11 @@ for y in range(len(stations)):
 # For each station, plot the scout ensemble at that station.
 for y in range(len(stations)):
     station=stations[y]
-    interpolator = iris.analysis.Linear().interpolator(prmsl2, 
+    interpolator = iris.analysis.Linear().interpolator(aat2, 
                                    ['latitude', 'longitude'])
     ensemble=interpolator([obs[obs.Name==station].Latitude.values[0],
                            obs[obs.Name==station].Longitude.values[0]])
-    ax_right.scatter(ensemble.data/100.0,
+    ax_right.scatter(ensemble.data,
                 numpy.linspace(y+1.1,y+1.5,
                               num=len(ensemble.data)),
                 20,
@@ -313,5 +323,5 @@ for i in range(len(stations)):
             zorder=1))
 
 # Output as png
-fig.savefig('Effect_%04d%02d%02d%02d%02d.png' % 
+fig.savefig('T_925_Effect_%04d%02d%02d%02d%02d.png' % 
                                   (year,month,day,hour,minute))

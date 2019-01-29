@@ -16,10 +16,10 @@ except NameError:
 
 # Get the DWR data for 1902
 obs=DWR.load_observations('prmsl',
-                          datetime.datetime(1902,1,1,0),
-                          datetime.datetime(1902,12,31,23))
+                          datetime.datetime(1903,1,1,0),
+                          datetime.datetime(1903,12,31,23))
 # Where to put the output files
-opdir="%s/../../../sef/UK_DWR/1902" % bindir
+opdir="%s/../../../sef/UK_DWR/1903" % bindir
 if not os.path.isdir(opdir):
     os.makedirs(opdir)
 

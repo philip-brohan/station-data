@@ -31,8 +31,8 @@ dask.config.set(scheduler='single-threaded')
 
 # Date to show
 year=1902
-month=7
-day=17
+month=8
+day=27
 hour=18
 minute=0 # obs are at 18:17 UTC, but show the field at 18:00
 dte=datetime.datetime(year,month,day,hour,minute)
@@ -40,8 +40,17 @@ dte=datetime.datetime(year,month,day,hour,minute)
 # Get the set of obs we're going to plot statistics for
 obs_x=twcr.load_observations_fortime(dte,version='4.6.1')
 # Throw out the obs not assimilated
-obs_x=obs_x
-obs=obs.sort_values(by='Latitude',ascending=False)
+obs_x=obs_x[obs_x['Oberrvar.use']<99.0]
+# Select only Argentine region
+obs_x=obs_x[obs_x['Name']==obs_x['Name']]
+obs_x=obs_x[obs_x['NCEP.Type']!=181]
+obs_x=obs_x[abs(obs_x['Time.offset'])<.33]
+obs_x=obs_x[(obs_x['Longitude']>270) & (obs_x['Longitude']<320)]
+obs_x=obs_x[(obs_x['Latitude']>-80) & (obs_x['Latitude']<0)]
+obs_x=obs_x.sort_values(by='Latitude',ascending=True)
+# Show only 25
+selected=list(range(0,len(obs_x),len(obs_x)//26))
+obs_x=obs_x.iloc[selected]
 
 # Landscape page
 aspect=16/9.0
@@ -57,7 +66,7 @@ canvas=FigureCanvas(fig)
 font = {'family' : 'sans-serif',
         'sans-serif' : 'Arial',
         'weight' : 'normal',
-        'size'   : 14}
+        'size'   : 12}
 matplotlib.rc('font', **font)
 
 # South America centred projection
@@ -81,17 +90,17 @@ obs_t=twcr.load_observations_fortime(dte,version='4.5.1')
 mg.observations.plot(ax_left,obs_t,radius=0.2)
 
 # PRMSL spaghetti plot
-mg.pressure.plot(ax_left,prmsl,scale=0.01,type='spaghetti',
-                   resolution=0.25,
-                   levels=numpy.arange(875,1050,10),
-                   colors='blue',
-                   label=False,
-                   linewidths=0.1)
+#mg.pressure.plot(ax_left,prmsl,scale=0.01,type='spaghetti',
+#                   resolution=0.25,
+#                   levels=numpy.arange(875,1050,10),
+#                   colors='blue',
+#                   label=False,
+#                   linewidths=0.1)
 
 # Add the ensemble mean - with labels
 prmsl_m=prmsl.collapsed('member', iris.analysis.MEAN)
 prmsl_s=prmsl.collapsed('member', iris.analysis.STD_DEV)
-prmsl_m.data[numpy.where(prmsl_s.data>300)]=numpy.nan
+#prmsl_m.data[numpy.where(prmsl_s.data>300)]=numpy.nan
 mg.pressure.plot(ax_left,prmsl_m,scale=0.01,
                    resolution=0.25,
                    levels=numpy.arange(875,1050,10),
@@ -128,17 +137,17 @@ obs_t2=twcr.load_observations_fortime(dte,version='4.6.1')
 mg.observations.plot(ax_centre,obs_t2,radius=0.2)
 
 # PRMSL spaghetti plot
-mg.pressure.plot(ax_centre,prmsl2,scale=0.01,type='spaghetti',
-                   resolution=0.25,
-                   levels=numpy.arange(875,1050,10),
-                   colors='blue',
-                   label=False,
-                   linewidths=0.1)
+#mg.pressure.plot(ax_centre,prmsl2,scale=0.01,type='spaghetti',
+#                   resolution=0.25,
+#                   levels=numpy.arange(875,1050,10),
+#                   colors='blue',
+#                   label=False,
+#                   linewidths=0.1)
 
 # Add the ensemble mean - with labels
 prmsl_m=prmsl2.collapsed('member', iris.analysis.MEAN)
 prmsl_s=prmsl2.collapsed('member', iris.analysis.STD_DEV)
-prmsl_m.data[numpy.where(prmsl_s.data>300)]=numpy.nan
+#prmsl_m.data[numpy.where(prmsl_s.data>300)]=numpy.nan
 mg.pressure.plot(ax_centre,prmsl_m,scale=0.01,
                    resolution=0.25,
                    levels=numpy.arange(875,1050,10),
@@ -155,10 +164,7 @@ mg.utils.plot_label(ax_centre,
 
 
 # Validation scatterplot on the right
-obs=obs.sort_values(by='Latitude',ascending=False)
-stations=list(OrderedDict.fromkeys(obs.Name.values))
-# Need obs from a wider time-range to interpolate observed pressures
-interpolate_obs=obs
+stations=list(OrderedDict.fromkeys(obs_x.UID.values))
 ax_right=fig.add_axes([0.74,0.05,0.255,0.94])
 # x-axis
 xrange=[960,1045]
@@ -172,7 +178,7 @@ ax_right.yaxis.set_major_locator(
               matplotlib.ticker.FixedLocator(y_locations))
 ax_right.yaxis.set_major_formatter(
               matplotlib.ticker.FixedFormatter(
-                  [s[4:] for s in stations]))
+                  [s for s in stations]))
 
 # Custom grid spacing
 for y in range(0,len(stations)):
@@ -190,22 +196,45 @@ latlon={}
 for y in range(0,len(stations)):
     station=stations[y]
     try:
-        mslp=obs[obs.Name==station].mslp.values[0]
+        mslp=obs_x[obs_x.UID==station].Observed.values[0]
     except Exception: continue 
     if mslp is None: continue  
-    if station in skip_stations:                         
-        ax_right.add_line(matplotlib.lines.Line2D(
+    ax_right.add_line(matplotlib.lines.Line2D(
                 xdata=(mslp,mslp), ydata=(y+1.1,y+1.9),
                 linestyle='solid',
                 linewidth=3,
-                color=(0,0,0,0.5),
+                color=(0.5,0.5,0.5,1),
                 zorder=1))
-    else:
-        ax_right.add_line(matplotlib.lines.Line2D(
+    try:
+        mslp=mslp-obs_x[obs_x.UID==station]['Bias.correction'].values[0]
+    except Exception: continue 
+    if mslp is None: continue  
+    ax_right.add_line(matplotlib.lines.Line2D(
                 xdata=(mslp,mslp), ydata=(y+1.1,y+1.9),
                 linestyle='solid',
                 linewidth=3,
                 color=(0,0,0,1),
+                zorder=1))
+    mslp2=mslp
+    try:
+        mslp=mslp-obs_x[obs_x.UID==station]['Obfit.post'].values[0]
+    except Exception: continue 
+    if mslp is None: continue  
+    ax_right.add_line(matplotlib.lines.Line2D(
+                xdata=(mslp,mslp), ydata=(y+1.1,y+1.9),
+                linestyle='solid',
+                linewidth=3,
+                color=(1,0.5,0.5,1),
+                zorder=1))
+    try:
+        mslp=mslp-obs_x[obs_x.UID==station]['Obfit.prior'].values[0]
+    except Exception: continue 
+    if mslp is None: continue  
+    ax_right.add_line(matplotlib.lines.Line2D(
+                xdata=(mslp,mslp), ydata=(y+1.1,y+1.9),
+                linestyle='solid',
+                linewidth=3,
+                color=(0,1,0,1),
                 zorder=1))
 
 # for each station, plot the V3 ensemble at that station
@@ -213,8 +242,8 @@ interpolator = iris.analysis.Linear().interpolator(prmsl,
                                    ['latitude', 'longitude'])
 for y in range(len(stations)):
     station=stations[y]
-    ensemble=interpolator([obs[obs.Name==station].Latitude.values[0],
-                           obs[obs.Name==station].Longitude.values[0]])
+    ensemble=interpolator([obs_x[obs_x.UID==station].Latitude.values[0],
+                           obs_x[obs_x.UID==station].Longitude.values[0]])
 
     ax_right.scatter(ensemble.data/100.0,
                 numpy.linspace(y+1.5,y+1.9,
@@ -226,14 +255,22 @@ for y in range(len(stations)):
                 linewidths=0.0,
                 alpha=0.5,
                 zorder=0.5)
+    ax_right.add_line(matplotlib.lines.Line2D(
+                xdata=(numpy.mean(ensemble.data/100.0),
+                       numpy.mean(ensemble.data/100.0)),
+                ydata=(y+1.1,y+1.9),
+                linestyle='solid',
+                linewidth=3,
+                color=(0,0,1,1),
+                zorder=1))
 
 # For each station, plot the scout ensemble at that station.
 for y in range(len(stations)):
     station=stations[y]
     interpolator = iris.analysis.Linear().interpolator(prmsl2, 
                                    ['latitude', 'longitude'])
-    ensemble=interpolator([obs[obs.Name==station].Latitude.values[0],
-                           obs[obs.Name==station].Longitude.values[0]])
+    ensemble=interpolator([obs_x[obs_x.UID==station].Latitude.values[0],
+                           obs_x[obs_x.UID==station].Longitude.values[0]])
     ax_right.scatter(ensemble.data/100.0,
                 numpy.linspace(y+1.1,y+1.5,
                               num=len(ensemble.data)),
@@ -244,6 +281,14 @@ for y in range(len(stations)):
                 linewidths=0.0,
                 alpha=0.5,
                 zorder=0.5)
+    ax_right.add_line(matplotlib.lines.Line2D(
+                xdata=(numpy.mean(ensemble.data/100.0),
+                       numpy.mean(ensemble.data/100.0)),
+                ydata=(y+1.1,y+1.9),
+                linestyle='solid',
+                linewidth=3,
+                color=(1,0,0,1),
+                zorder=1))
 
 # Join each station name to its location on the map
 # Need another axes, filling the whole fig
@@ -253,8 +298,8 @@ ax_full.patch.set_alpha(0.0)  # Transparent background
 def pos_left(idx):
     station=stations[idx]
     rp=ax_centre.projection.transform_points(ccrs.PlateCarree(),
-                              numpy.asarray(obs[obs.Name==station].Longitude.values[0]),
-                              numpy.asarray(obs[obs.Name==station].Latitude.values[0]))
+                              numpy.asarray(obs_x[obs_x.UID==station].Longitude.values[0]),
+                              numpy.asarray(obs_x[obs_x.UID==station].Latitude.values[0]))
     new_lon=rp[:,0]
     new_lat=rp[:,1]
 
@@ -291,5 +336,5 @@ for i in range(len(stations)):
             zorder=1))
 
 # Output as png
-fig.savefig('Effect_%04d%02d%02d%02d%02d.png' % 
+fig.savefig('Effect_psobs_%04d%02d%02d%02d%02d.png' % 
                                   (year,month,day,hour,minute))
